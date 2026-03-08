@@ -1,110 +1,3673 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعلان خطوبة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>You Chat - شبكة التواصل الاجتماعي</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            color: #343a40;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
-        .header {
+        
+         :root {
+            --primary-color: #1877f2;
+            --secondary-color: #42b72a;
+            --bg-color: #f0f2f5;
+            --white: #ffffff;
+            --dark-text: #050505;
+            --light-text: #65676b;
+            --border-color: #e4e6eb;
+            --hover-bg: #f0f2f5;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --danger-color: #e41e3f;
+            --success-color: #31a24c;
+            --yellow-color: #f7b928;
+            --messenger-color: #0084ff;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            direction: rtl;
+        }
+        /* شاشة تسجيل الدخول - تصميم فيسبوك */
+        
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1877f2 0%, #42b72a 100%);
+            padding: 20px;
+        }
+        
+        .auth-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            animation: slideUpFb 0.5s ease;
+        }
+        
+        @keyframes slideUpFb {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h1 {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        
+        .auth-header p {
+            color: var(--light-text);
+            font-size: 18px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: #e7f3ff;
+            padding: 6px;
+            border-radius: 50px;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--light-text);
+            transition: all 0.3s;
+        }
+        
+        .auth-tab.active {
+            background: var(--primary-color);
             color: white;
-            text-align: center;
-            padding: 100px 0;
-            background-image: url('https://www.cairo24.com/Upload/libfiles/80/5/685.jpg');
-            background-size: cover;
-            background-position: center;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
         }
-        .header h1 {
-            font-size: 3em;
-            margin: 0;
+        
+        .auth-form {
+            display: none;
         }
-        .content {
-            display: flex;
-            justify-content: center;
-            padding: 50px 0;
+        
+        .auth-form.active {
+            display: block;
         }
-        .card {
-            background-image:
-            url('https://i0.wp.com/almrj3.com/wp-content/uploads/2022/01/%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA-%D8%AF%D8%B9%D9%88%D8%A9-%D8%B2%D9%88%D8%A7%D8%AC-%D8%AC%D8%A7%D9%87%D8%B2%D8%A9-%D9%84%D9%84%D9%83%D8%AA%D8%A7%D8%A8%D8%A9-%D8%B9%D9%84%D9%8A%D9%87%D8%A7-3.jpg?w=667&ssl=1');
-            /* استبدل برابط الصورة المباشر */
-            background-size: cover;
-            background-position: center;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            text-align: center;
-            color: #fff; /* لتجنب مشاكل التباين مع النص */
-        }
-        .card h2 {
-            color: #aca; /* تغيير اللون ليتناسب مع الخلفية */
-            font-size: 2em;
+        
+        .form-group {
             margin-bottom: 20px;
-            text-shadow:2px 3px 3px rgba(8,8,8,1.9);
         }
-        .card p {
-            
-            
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+            font-weight: 600;
+            font-size: 14px;
         }
-        .names {
-            font-family: 'Cairo', sans-serif;
-            font-size: 2em;
-            color: #e74c3c;
-            font-weight: bold;
-            margin-bottom: 90px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* ظل خفيف للنص */
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
         }
-        .details {
-            font-size: 1.2em;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #166fe5;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(24, 119, 242, 0.3);
+        }
+        
+        .btn-success {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #36a420;
+            transform: translateY(-1px);
+        }
+        
+        .btn-messenger {
+            background: var(--messenger-color);
+            color: white;
+        }
+        
+        .divider {
+            margin: 25px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: var(--border-color);
+        }
+        
+        .divider::before {
+            left: 0;
+        }
+        
+        .divider::after {
+            right: 0;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            color: var(--light-text);
+            font-size: 14px;
+        }
+        
+        .demo-accounts {
+            margin-top: 20px;
+            background: #f0f8ff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .demo-accounts h4 {
+            color: var(--dark-text);
+            margin-bottom: 15px;
+            font-size: 15px;
             text-align: center;
         }
-        .details span {
-            font-family: 'Cairo', sans-serif;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.5); /* خلفية شفافة للتباين */
-            padding: 10px;
-            border-radius: 5px;
-            display: inline-block;
-            margin: 5px 0;
+        
+        .demo-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
-        .red{
-        background-color:  rgba(0,0,0,0.3);
-        text-align: bold;
-font-size: 2.2em;
-            line-height: 1.5
+        
+        .demo-btn {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .demo-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message.error {
+            background: #ffebe9;
+            color: #c62828;
+            border-right: 4px solid #c62828;
+        }
+        
+        .message.success {
+            background: #e4f5e9;
+            color: #2e7d32;
+            border-right: 4px solid #2e7d32;
+        }
+        /* التطبيق الرئيسي - تصميم فيسبوك */
+        
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            background: var(--bg-color);
+        }
+        /* الشريط العلوي - مثل فيسبوك تماماً */
+        
+        .top-nav {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 16px;
+            height: 60px;
+        }
+        
+        .nav-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            cursor: pointer;
+            letter-spacing: -1px;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 280px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: none;
+            border-radius: 50px;
+            background: var(--bg-color);
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+            font-size: 16px;
+        }
+        
+        .nav-center {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-icon {
+            width: 110px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: all 0.3s;
+            position: relative;
+            font-size: 22px;
+        }
+        
+        .nav-icon:hover {
+            background: var(--hover-bg);
+        }
+        
+        .nav-icon.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .nav-icon .badge {
+            position: absolute;
+            top: 8px;
+            right: 25px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 50px;
+            min-width: 18px;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid white;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .profile-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px 6px 6px;
+            border-radius: 50px;
+            background: var(--bg-color);
+            transition: all 0.3s;
+        }
+        
+        .profile-trigger:hover {
+            background: var(--border-color);
+        }
+        
+        .nav-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            font-size: 15px;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            display: none;
+            z-index: 1001;
+            overflow: hidden;
+        }
+        
+        .profile-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .dropdown-header .nav-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 22px;
+        }
+        
+        .dropdown-header-info h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        
+        .dropdown-header-info p {
+            font-size: 13px;
+            color: var(--light-text);
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: var(--hover-bg);
+        }
+        
+        .dropdown-item i {
+            width: 24px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 8px 0;
+        }
+        /* المحتوى الرئيسي - 3 أعمدة */
+        
+        .main-content {
+            max-width: 1300px;
+            margin: 75px auto 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 320px;
+            gap: 20px;
+        }
+        /* الشريط الجانبي الأيسر */
+        
+        .left-sidebar {
+            position: sticky;
+            top: 75px;
+            height: calc(100vh - 95px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+        
+        .sidebar-item:hover {
+            background: var(--hover-bg);
+        }
+        
+        .sidebar-item i {
+            width: 28px;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .sidebar-item img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        .sidebar-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--light-text);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .see-all {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 13px;
+        }
+        /* المحتوى المركزي */
+        
+        .feed-container {
+            width: 100%;
+        }
+        /* صندوق إنشاء منشور */
+        
+        .create-post-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .create-post-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .post-input {
+            flex: 1;
+            background: var(--bg-color);
+            border-radius: 50px;
+            padding: 0 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: var(--light-text);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .post-input:hover {
+            background: #e4e6e9;
+        }
+        
+        .post-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 16px 0;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .post-action {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: var(--light-text);
+        }
+        
+        .post-action:hover {
+            background: var(--hover-bg);
+        }
+        
+        .post-action i {
+            font-size: 22px;
+        }
+        
+        .fa-camera {
+            color: #f3425f;
+        }
+        
+        .fa-video {
+            color: #45bd62;
+        }
+        
+        .fa-smile {
+            color: #f7b928;
+        }
+        /* المنشورات */
+        
+        .post {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .post:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .post-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+        
+        .post-author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .post-author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .post-author-info {
+            flex: 1;
+        }
+        
+        .post-author-name {
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .post-time i {
+            font-size: 10px;
+        }
+        
+        .post-menu {
+            position: relative;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .post-menu:hover {
+            background: var(--hover-bg);
+        }
+        
+        .post-menu-dropdown {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            display: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .post-menu:hover .post-menu-dropdown {
+            display: block;
+        }
+        
+        .post-menu-item {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        
+        .post-menu-item:hover {
+            background: var(--hover-bg);
+        }
+        
+        .post-menu-item i {
+            width: 20px;
+            color: var(--light-text);
+        }
+        
+        .post-content {
+            padding: 0 16px 16px;
+            color: var(--dark-text);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .post-media {
+            max-height: 500px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background: black;
+            margin-bottom: 12px;
+        }
+        
+        .post-media img,
+        .post-media video {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+        
+        .post-stats {
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--light-text);
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .reactions-summary {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .reaction-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .reaction-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: -4px;
+            border: 2px solid white;
+        }
+        
+        .reaction-icon.like {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .reaction-icon.love {
+            background: #f33e58;
+            color: white;
+        }
+        
+        .reaction-icon.care {
+            background: #f7b928;
+            color: white;
+        }
+        
+        .post-actions-bar {
+            padding: 8px 12px;
+            display: flex;
+        }
+        
+        .post-action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .post-action-btn:hover {
+            background: var(--hover-bg);
+        }
+        
+        .post-action-btn.liked {
+            color: var(--primary-color);
+        }
+        
+        .post-action-btn.loved {
+            color: #f33e58;
+        }
+        
+        .reaction-popup {
+            position: relative;
+        }
+        
+        .reaction-popup:hover .reactions-panel {
+            display: flex;
+        }
+        
+        .reactions-panel {
+            position: absolute;
+            bottom: 50px;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            display: none;
+            gap: 8px;
+            animation: slideUp 0.2s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .reaction-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+        }
+        
+        .reaction-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .reaction-option.like:hover {
+            color: var(--primary-color);
+        }
+        
+        .reaction-option.love:hover {
+            color: #f33e58;
+        }
+        
+        .reaction-option.care:hover {
+            color: #f7b928;
+        }
+        
+        .reaction-option.haha:hover {
+            color: #f7b928;
+        }
+        
+        .reaction-option.wow:hover {
+            color: #f7b928;
+        }
+        
+        .reaction-option.sad:hover {
+            color: #f7b928;
+        }
+        
+        .reaction-option.angry:hover {
+            color: #f7b928;
+        }
+        /* التعليقات */
+        
+        .comments-section {
+            padding: 16px;
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--light-text);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .comment-content {
+            flex: 1;
+            background: white;
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comment-author {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--dark-text);
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .comment-footer {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--light-text);
+        }
+        
+        .comment-footer span {
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .comment-footer span:hover {
+            text-decoration: underline;
+        }
+        
+        .comment-time {
+            font-size: 11px;
+            color: var(--light-text);
+        }
+        
+        .view-more-comments {
+            color: var(--light-text);
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .view-more-comments:hover {
+            text-decoration: underline;
+        }
+        
+        .add-comment {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .add-comment .comment-avatar {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .comment-input-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            background: white;
+            border-radius: 50px;
+            padding: 5px 5px 5px 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .comment-input-wrapper input {
+            flex: 1;
+            border: none;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .comment-input-wrapper input:focus {
+            outline: none;
+        }
+        
+        .comment-input-wrapper button {
+            padding: 8px 20px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .comment-input-wrapper button:hover {
+            background: #166fe5;
+        }
+        /* صفحة الريلز */
+        
+        .reels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .reel-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .reel-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .reel-thumbnail {
+            height: 400px;
+            position: relative;
+            background: black;
+        }
+        
+        .reel-thumbnail video,
+        .reel-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .reel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+        
+        .reel-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .reel-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        
+        .reel-user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .reel-user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .reel-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+        }
+        
+        .reel-stats i {
+            margin-left: 5px;
+        }
+        
+        .reel-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .reel-card:hover .reel-play {
+            opacity: 1;
+        }
+        /* صفحة الأصدقاء */
+        
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .friend-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        
+        .friend-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .friend-card-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .friend-card-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .friend-card-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .friend-card-mutual {
+            color: var(--light-text);
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .friend-card-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .friend-card-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .btn-confirm {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-confirm:hover {
+            background: #166fe5;
+        }
+        
+        .btn-delete {
+            background: var(--hover-bg);
+            color: var(--dark-text);
+        }
+        
+        .btn-delete:hover {
+            background: #e4e6e9;
+        }
+        
+        .friend-request-badge {
+            background: var(--danger-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        /* صفحة الرسائل */
+        
+        .messages-container {
+            background: white;
+            border-radius: 12px;
+            height: calc(100vh - 150px);
+            display: flex;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .conversations-list {
+            width: 350px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+        
+        .conversations-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .conversations-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .new-message-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--hover-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .new-message-btn:hover {
+            background: var(--border-color);
+        }
+        
+        .conversation-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .conversation-item:hover,
+        .conversation-item.active {
+            background: var(--hover-bg);
+        }
+        
+        .conversation-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .conversation-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .online-status {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: var(--success-color);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .conversation-info {
+            flex: 1;
+        }
+        
+        .conversation-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        
+        .conversation-last {
+            font-size: 13px;
+            color: var(--light-text);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .conversation-time {
+            font-size: 11px;
+        }
+        
+        .unread-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8f9fa;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+        }
+        
+        .chat-header-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+        }
+        
+        .chat-header-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .chat-header-info {
+            flex: 1;
+        }
+        
+        .chat-header-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .chat-header-status {
+            font-size: 12px;
+            color: var(--success-color);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .message-group {
+            margin-bottom: 20px;
+        }
+        
+        .message-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .message-row.sent {
+            justify-content: flex-end;
+        }
+        
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            background: white;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message-row.sent .message-bubble {
+            background: var(--messenger-color);
+            color: white;
+        }
+        
+        .message-media {
+            max-width: 200px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .message-media img,
+        .message-media video {
+            width: 100%;
+            border-radius: 12px;
+        }
+        
+        .message-time {
+            font-size: 10px;
+            color: var(--light-text);
+            margin-top: 5px;
+            text-align: left;
+        }
+        
+        .message-row.sent .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .chat-input-area {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .chat-input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-color);
+            border-radius: 50px;
+            padding: 8px 16px;
+        }
+        
+        .chat-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        
+        .chat-input-wrapper input:focus {
+            outline: none;
+        }
+        
+        .chat-actions {
+            display: flex;
+            gap: 12px;
+            color: var(--light-text);
+        }
+        
+        .chat-actions i {
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .chat-actions i:hover {
+            color: var(--primary-color);
+        }
+        
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--messenger-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .send-btn:hover {
+            background: #0066cc;
+            transform: scale(1.05);
+        }
+        /* الشريط الجانبي الأيمن */
+        
+        .right-sidebar {
+            position: sticky;
+            top: 75px;
+            height: calc(100vh - 95px);
+            overflow-y: auto;
+        }
+        
+        .birthday-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .birthday-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .sponsored-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .sponsored-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .sponsored-image {
+            width: 100px;
+            height: 100px;
+            background: var(--hover-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .sponsored-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sponsored-info h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .sponsored-info p {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+        
+        .contacts-list {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        
+        .contact-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .contact-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .contact-status {
+            width: 10px;
+            height: 10px;
+            background: var(--success-color);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+        }
+        
+        .contact-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        /* نافذة تعديل الملف الشخصي */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .modal-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark-text);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .profile-cover-upload {
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            border-radius: 12px;
+            margin-bottom: 60px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .profile-cover-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .profile-cover-upload:hover .profile-cover-overlay {
+            opacity: 1;
+        }
+        
+        .profile-avatar-upload {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            margin: -60px auto 20px;
+            position: relative;
+            border: 4px solid white;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .profile-avatar-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .profile-avatar-upload:hover .profile-avatar-overlay {
+            opacity: 1;
+        }
+        /* صفحات التطبيق */
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        /* صفحة الملف الشخصي */
+        
+        .profile-header {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .profile-cover {
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar-large {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            border: 4px solid white;
+            margin-top: -80px;
+            margin-right: 30px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            padding: 20px 30px;
+        }
+        
+        .profile-name-large {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .profile-bio {
+            color: var(--light-text);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            color: var(--light-text);
+            font-size: 14px;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .profile-tab {
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .profile-tab:hover {
+            background: var(--hover-bg);
+        }
+        
+        .profile-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        /* حالة التحميل */
+        
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: var(--light-text);
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .empty-state p {
+            font-size: 16px;
+        }
+        /* التجاوب مع الجوال */
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .left-sidebar,
+            .right-sidebar {
+                display: none;
+            }
+            .nav-center {
+                display: none;
+            }
+            .profile-name {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="header">
-        <h1>🎉💍 إعلان خطوبة 💍🎉</h1>
-    </div>
-    <div class="content">
-        <div class="card">
-            <h2>🎉بكل سرور وسعادة، أود أن أشارككم خبر خطوبتي🎉!</h2>
-            <p class="names">Mohamed🤵<br>🫶<br>Nour👰</p>
-            <div class="details">
-                <span>الموعد: [الوقت]</span>
-                <span>التاريخ: [التاريخ]</span>
-                <span>اليوم: [اليوم]</span>
+    <!-- شاشة تسجيل الدخول -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>You Chat</h1>
+                <p>تواصل مع الأصدقاء والعالم</p>
             </div>
-            <p class="red">أشكر الله🤲 على هذه النعمة وأتطلع إلى مستقبل مليء
-     الحب والسعادة
-     .</p>
-            <p class="red">شكرًا لكل من شاركنا هذه اللحظة السعيدة.</p>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">إنشاء حساب</div>
+            </div>
+
+            <div id="authMessage" class="message" style="display: none;"></div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <div class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label>اسم المستخدم أو البريد الإلكتروني</label>
+                    <input type="text" id="loginUsername" placeholder="أدخل اسم المستخدم">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور">
+                </div>
+                <button class="btn btn-primary" onclick="login()">تسجيل الدخول</button>
+
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+
+                <!-- حسابات تجريبية -->
+                <div class="demo-accounts">
+                    <h4>حسابات تجريبية:</h4>
+                    <div class="demo-buttons">
+                        <button class="demo-btn" onclick="fillDemoAccount('admin', 'admin123')">
+                            <i class="fas fa-crown"></i> Admin
+                        </button>
+                        <button class="demo-btn" onclick="fillDemoAccount('ahmed', 'ahmed123')">
+                            <i class="fas fa-user"></i> Ahmed
+                        </button>
+                        <button class="demo-btn" onclick="fillDemoAccount('sara', 'sara123')">
+                            <i class="fas fa-user"></i> Sara
+                        </button>
+                        <button class="demo-btn" onclick="fillDemoAccount('mohamed', 'mohamed123')">
+                            <i class="fas fa-user"></i> Mohamed
+                        </button>
+                        <button class="demo-btn" onclick="fillDemoAccount('fatma', 'fatma123')">
+                            <i class="fas fa-user"></i> Fatma
+                        </button>
+                        <button class="demo-btn" onclick="fillDemoAccount('ali', 'ali123')">
+                            <i class="fas fa-user"></i> Ali
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نموذج إنشاء حساب -->
+            <div class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="registerUsername" placeholder="اختر اسم مستخدم">
+                </div>
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="registerFullName" placeholder="الاسم الكامل">
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="registerEmail" placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="registerPassword" placeholder="كلمة المرور">
+                </div>
+                <div class="form-group">
+                    <label>تأكيد كلمة المرور</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="أعد كتابة كلمة المرور">
+                </div>
+                <button class="btn btn-success" onclick="register()">إنشاء حساب جديد</button>
+            </div>
         </div>
     </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div class="app-container" id="appContainer">
+        <!-- الشريط العلوي -->
+        <nav class="top-nav">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <div class="logo" onclick="showPage('feed')">Y</div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="بحث في You Chat" id="searchInput">
+                    </div>
+                </div>
+
+                <div class="nav-center">
+                    <div class="nav-icon active" onclick="showPage('feed')">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="nav-icon" onclick="showPage('friends')">
+                        <i class="fas fa-user-friends"></i>
+                        <span class="badge" id="friendsBadge" style="display: none;">3</span>
+                    </div>
+                    <div class="nav-icon" onclick="showPage('reels')">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="nav-icon" onclick="showPage('messages')">
+                        <i class="fas fa-comment"></i>
+                        <span class="badge" id="messageBadge" style="display: none;">5</span>
+                    </div>
+                    <div class="nav-icon" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationBadge" style="display: none;">2</span>
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <div class="profile-dropdown">
+                        <div class="profile-trigger">
+                            <div class="nav-avatar" id="navAvatar"></div>
+                            <span class="profile-name" id="navUserName"></span>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--light-text);"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-header">
+                                <div class="nav-avatar" id="dropdownAvatar"></div>
+                                <div class="dropdown-header-info">
+                                    <h4 id="dropdownName"></h4>
+                                    <p id="dropdownUsername"></p>
+                                </div>
+                            </div>
+                            <div class="dropdown-item" onclick="showPage('profile')">
+                                <i class="fas fa-user"></i>
+                                <span>الملف الشخصي</span>
+                            </div>
+                            <div class="dropdown-item" onclick="editProfile()">
+                                <i class="fas fa-cog"></i>
+                                <span>الإعدادات</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="showPage('friends')">
+                                <i class="fas fa-user-friends"></i>
+                                <span>الأصدقاء</span>
+                            </div>
+                            <div class="dropdown-item" onclick="showPage('messages')">
+                                <i class="fas fa-comment"></i>
+                                <span>الرسائل</span>
+                            </div>
+                            <div class="dropdown-item" onclick="showPage('saved')">
+                                <i class="fas fa-bookmark"></i>
+                                <span>المحفوظات</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>تسجيل الخروج</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <!-- الشريط الجانبي الأيسر -->
+            <div class="left-sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-item" onclick="showPage('profile')">
+                        <div class="nav-avatar" id="sidebarAvatar"></div>
+                        <span id="sidebarUserName"></span>
+                    </div>
+                    <div class="sidebar-item" onclick="showPage('feed')">
+                        <i class="fas fa-newspaper"></i>
+                        <span>آخر الأخبار</span>
+                    </div>
+                    <div class="sidebar-item" onclick="showPage('friends')">
+                        <i class="fas fa-user-friends"></i>
+                        <span>الأصدقاء</span>
+                        <span class="friend-request-badge" id="sidebarFriendBadge" style="display: none;">3</span>
+                    </div>
+                    <div class="sidebar-item" onclick="showPage('reels')">
+                        <i class="fas fa-film"></i>
+                        <span>الريلز</span>
+                    </div>
+                    <div class="sidebar-item" onclick="showPage('messages')">
+                        <i class="fas fa-comment"></i>
+                        <span>الرسائل</span>
+                    </div>
+                    <div class="sidebar-item" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span>الإشعارات</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>الأحداث</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-users"></i>
+                        <span>المجموعات</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-flag"></i>
+                        <span>الصفحات</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <span>اختصاراتك</span>
+                        <span class="see-all">تعديل</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>الألعاب</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>السوق</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <i class="fas fa-video"></i>
+                        <span>مشاهدة</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المحتوى المركزي -->
+            <div class="feed-container">
+                <!-- صفحة الرئيسية -->
+                <div class="page active" id="feedPage">
+                    <!-- صندوق إنشاء منشور -->
+                    <div class="create-post-card" onclick="openCreatePostModal()">
+                        <div class="create-post-header">
+                            <div class="post-avatar" id="feedAvatar"></div>
+                            <div class="post-input">
+                                <span>ما الذي يدور في ذهنك؟</span>
+                            </div>
+                        </div>
+                        <div class="post-divider"></div>
+                        <div class="post-actions">
+                            <div class="post-action" onclick="event.stopPropagation(); openCreatePostModal('image')">
+                                <i class="fas fa-camera"></i>
+                                <span>صورة</span>
+                            </div>
+                            <div class="post-action" onclick="event.stopPropagation(); openCreatePostModal('video')">
+                                <i class="fas fa-video"></i>
+                                <span>فيديو</span>
+                            </div>
+                            <div class="post-action" onclick="event.stopPropagation(); openCreatePostModal('feeling')">
+                                <i class="fas fa-smile"></i>
+                                <span>مشاعر</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- المنشورات -->
+                    <div id="postsContainer"></div>
+                </div>
+
+                <!-- صفحة الريلز -->
+                <div class="page" id="reelsPage">
+                    <div class="reels-container" id="reelsContainer">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة الأصدقاء -->
+                <div class="page" id="friendsPage">
+                    <div class="sidebar-card">
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <button class="btn btn-primary" style="flex:1;" onclick="switchFriendsTab('all')">كل المستخدمين</button>
+                            <button class="btn btn-primary" style="flex:1;" onclick="switchFriendsTab('friends')">أصدقائي</button>
+                            <button class="btn btn-primary" style="flex:1;" onclick="switchFriendsTab('requests')">الطلبات</button>
+                        </div>
+                        <div id="friendsContent" class="friends-grid"></div>
+                    </div>
+                </div>
+
+                <!-- صفحة الرسائل -->
+                <div class="page" id="messagesPage">
+                    <div class="messages-container">
+                        <div class="conversations-list">
+                            <div class="conversations-header">
+                                <h3>المحادثات</h3>
+                                <div class="new-message-btn" onclick="openNewMessageModal()">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </div>
+                            </div>
+                            <div id="conversationsList"></div>
+                        </div>
+                        <div class="chat-area" id="chatArea">
+                            <div class="chat-header" id="chatHeader">
+                                اختر محادثة للبدء
+                            </div>
+                            <div class="chat-messages" id="chatMessages"></div>
+                            <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                                <div class="chat-input-wrapper">
+                                    <input type="text" id="messageInput" placeholder="اكتب رسالتك..." onkeypress="handleMessageKeyPress(event)">
+                                    <div class="chat-actions">
+                                        <i class="fas fa-camera" onclick="selectChatImage()"></i>
+                                        <i class="fas fa-microphone" onclick="recordVoice()"></i>
+                                        <i class="fas fa-smile" onclick="openEmojiPicker()"></i>
+                                    </div>
+                                </div>
+                                <button class="send-btn" onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة الملف الشخصي -->
+                <div class="page" id="profilePage">
+                    <div class="profile-header">
+                        <div class="profile-cover" id="profileCover">
+                            <img src="" alt="" id="profileCoverImg">
+                        </div>
+                        <div class="profile-avatar-large" id="profileAvatarLarge"></div>
+                        <div class="profile-info">
+                            <h2 class="profile-name-large" id="profileFullName"></h2>
+                            <p class="profile-bio" id="profileBio"></p>
+
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="profilePostsCount">0</div>
+                                    <div class="stat-label">منشور</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="profileFriendsCount">0</div>
+                                    <div class="stat-label">صديق</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="profileFollowersCount">0</div>
+                                    <div class="stat-label">متابع</div>
+                                </div>
+                            </div>
+
+                            <div class="profile-tabs">
+                                <div class="profile-tab active" onclick="loadUserPosts()">المنشورات</div>
+                                <div class="profile-tab" onclick="loadUserFriends()">الأصدقاء</div>
+                                <div class="profile-tab" onclick="loadUserPhotos()">الصور</div>
+                                <div class="profile-tab" onclick="loadUserVideos()">الفيديوهات</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="profileContent"></div>
+                </div>
+            </div>
+
+            <!-- الشريط الجانبي الأيمن -->
+            <div class="right-sidebar">
+                <div class="birthday-card">
+                    <div class="sidebar-title">
+                        <i class="fas fa-gift" style="color: #f7b928;"></i>
+                        <span>أعياد ميلاد</span>
+                    </div>
+                    <div class="birthday-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>أحمد ومحمد لهم عيد ميلاد اليوم</span>
+                    </div>
+                </div>
+
+                <div class="sponsored-card">
+                    <div class="sidebar-title">محتوى مدعوم</div>
+                    <div class="sponsored-item">
+                        <div class="sponsored-image">
+                            <img src="https://via.placeholder.com/100" alt="">
+                        </div>
+                        <div class="sponsored-info">
+                            <h4>تطبيق You Chat</h4>
+                            <p>you-chat.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contacts-list">
+                    <div class="sidebar-title">
+                        <span>جهات الاتصال</span>
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div id="contactsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إنشاء منشور -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إنشاء منشور</h3>
+                <span class="close-modal" onclick="closeCreatePostModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div class="post-avatar" id="modalAvatar"></div>
+                    <div>
+                        <div style="font-weight: 600;" id="modalUserName"></div>
+                        <select style="margin-top: 5px; padding: 5px; border-radius: 6px; border: 1px solid var(--border-color);">
+                            <option>عام</option>
+                            <option>الأصدقاء</option>
+                            <option>خاص</option>
+                        </select>
+                    </div>
+                </div>
+
+                <textarea id="postContent" placeholder="ما الذي يدور في ذهنك؟" rows="4" style="width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; font-size: 16px;"></textarea>
+
+                <div id="mediaPreview" class="media-preview" style="display: none;"></div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px;">
+                    <span style="color: var(--light-text);">أضف إلى منشورك</span>
+                    <div style="flex:1; display: flex; gap: 15px; justify-content: flex-start;">
+                        <i class="fas fa-camera" style="color: #f3425f; font-size: 24px; cursor: pointer;" onclick="selectImageModal()"></i>
+                        <i class="fas fa-video" style="color: #45bd62; font-size: 24px; cursor: pointer;" onclick="selectVideoModal()"></i>
+                        <i class="fas fa-tag" style="color: #1877f2; font-size: 24px; cursor: pointer;"></i>
+                        <i class="fas fa-smile" style="color: #f7b928; font-size: 24px; cursor: pointer;"></i>
+                        <i class="fas fa-map-marker-alt" style="color: #f33e58; font-size: 24px; cursor: pointer;"></i>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="publishPost()">نشر</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل المنشور -->
+    <div class="modal" id="editPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تعديل المنشور</h3>
+                <span class="close-modal" onclick="closeEditPostModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="editPostContent" rows="4" style="width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 15px;"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" style="flex:1;" onclick="saveEditedPost()">حفظ</button>
+                    <button class="btn btn-primary" style="flex:1; background: var(--danger-color);" onclick="closeEditPostModal()">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة حذف المنشور -->
+    <div class="modal" id="deletePostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>حذف المنشور</h3>
+                <span class="close-modal" onclick="closeDeletePostModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; text-align: center;">هل أنت متأكد من حذف هذا المنشور؟</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" style="flex:1; background: var(--danger-color);" onclick="confirmDeletePost()">نعم، احذف</button>
+                    <button class="btn btn-primary" style="flex:1;" onclick="closeDeletePostModal()">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل الملف الشخصي -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تعديل الملف الشخصي</h3>
+                <span class="close-modal" onclick="closeModal('editProfileModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="profile-cover-upload" onclick="changeCoverPicture()" id="coverUpload">
+                    <img src="" alt="" id="coverPreview">
+                    <div class="profile-cover-overlay">
+                        <i class="fas fa-camera"></i> تغيير صورة الغلاف
+                    </div>
+                </div>
+
+                <div class="profile-avatar-upload" onclick="changeProfilePicture()" id="avatarUpload">
+                    <img src="" alt="" id="avatarPreview">
+                    <div class="profile-avatar-overlay">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="editFullName">
+                </div>
+                <div class="form-group">
+                    <label>نبذة عني</label>
+                    <textarea id="editBio" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="editEmail">
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="editPhone">
+                </div>
+                <button class="btn btn-primary" onclick="saveProfile()">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإشعارات -->
+    <div class="modal" id="notificationsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الإشعارات</h3>
+                <span class="close-modal" onclick="closeModal('notificationsModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="notificationsList"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================
+        // تهيئة Firebase
+        // ==========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyABD_gJMjIx5BBIU925Upwi_8zDbc3EDCU",
+            authDomain: "you-chat-4b169.firebaseapp.com",
+            databaseURL: "https://you-chat-4b169-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "you-chat-4b169",
+            storageBucket: "you-chat-4b169.firebasestorage.app",
+            messagingSenderId: "593383830616",
+            appId: "1:593383830616:web:5117ece10972a75e95c62d",
+            measurementId: "G-YJ2H5H1Q9N"
+        };
+
+        // تهيئة Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const storage = firebase.storage();
+
+        // متغيرات عامة
+        let currentUser = null;
+        let selectedImage = null;
+        let selectedVideo = null;
+        let currentEditingPostId = null;
+        let currentDeletingPostId = null;
+        let currentChatUser = null;
+        let messagesListener = null;
+
+        // ==========================
+        // دوال المصادقة
+        // ==========================
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        function showMessage(text, type) {
+            const msgDiv = document.getElementById('authMessage');
+            msgDiv.style.display = 'block';
+            msgDiv.className = `message ${type}`;
+            msgDiv.textContent = text;
+        }
+
+        function fillDemoAccount(username, password) {
+            document.getElementById('loginUsername').value = username;
+            document.getElementById('loginPassword').value = password;
+        }
+
+        // تسجيل الدخول
+        async function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showMessage('الرجاء إدخال اسم المستخدم وكلمة المرور', 'error');
+                return;
+            }
+
+            try {
+                // البحث عن المستخدم
+                const usersRef = database.ref('users');
+                const snapshot = await usersRef.orderByChild('username').equalTo(username).once('value');
+
+                if (!snapshot.exists()) {
+                    showMessage('اسم المستخدم غير موجود', 'error');
+                    return;
+                }
+
+                let userData = null;
+                let userId = null;
+
+                snapshot.forEach(childSnapshot => {
+                    const data = childSnapshot.val();
+                    if (data.password === password) {
+                        userData = data;
+                        userId = childSnapshot.key;
+                    }
+                });
+
+                if (!userData) {
+                    showMessage('كلمة المرور غير صحيحة', 'error');
+                    return;
+                }
+
+                // تسجيل الدخول بنجاح
+                currentUser = {
+                    uid: userId,
+                    ...userData
+                };
+
+                // تحديث آخر ظهور
+                await database.ref(`users/${userId}/lastSeen`).set(new Date().toISOString());
+
+                showMessage('تم تسجيل الدخول بنجاح!', 'success');
+
+                // إظهار التطبيق
+                setTimeout(() => {
+                    document.getElementById('authContainer').style.display = 'none';
+                    document.getElementById('appContainer').style.display = 'block';
+                    updateUserInterfaces();
+                    loadPosts();
+                    loadReels();
+                    loadAllUsers();
+                    loadConversations();
+                    loadContacts();
+                    updateBadges();
+                }, 1000);
+
+            } catch (error) {
+                showMessage('خطأ: ' + error.message, 'error');
+            }
+        }
+
+        // إنشاء حساب جديد
+        async function register() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const fullName = document.getElementById('registerFullName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (!username || !fullName || !email || !password) {
+                showMessage('الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('كلمة المرور غير متطابقة', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+
+            try {
+                // التحقق من عدم تكرار اسم المستخدم
+                const usersRef = database.ref('users');
+                const snapshot = await usersRef.orderByChild('username').equalTo(username).once('value');
+
+                if (snapshot.exists()) {
+                    showMessage('اسم المستخدم موجود بالفعل', 'error');
+                    return;
+                }
+
+                // إنشاء مستخدم جديد
+                const newUserRef = usersRef.push();
+                const userData = {
+                    username: username,
+                    fullName: fullName,
+                    email: email,
+                    password: password,
+                    bio: 'مرحباً، أنا عضو جديد في You Chat',
+                    photoURL: '',
+                    coverURL: '',
+                    friends: {},
+                    friendRequests: {},
+                    createdAt: new Date().toISOString(),
+                    lastSeen: new Date().toISOString()
+                };
+
+                await newUserRef.set(userData);
+
+                showMessage('تم إنشاء الحساب بنجاح!', 'success');
+
+                // التبديل إلى تبويب تسجيل الدخول
+                switchAuthTab('login');
+                document.getElementById('loginUsername').value = username;
+                document.getElementById('loginPassword').value = password;
+
+            } catch (error) {
+                showMessage('خطأ: ' + error.message, 'error');
+            }
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            if (currentUser) {
+                database.ref(`users/${currentUser.uid}/lastSeen`).set(new Date().toISOString());
+            }
+            currentUser = null;
+            document.getElementById('authContainer').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+        }
+
+        // تحديث واجهات المستخدم
+        function updateUserInterfaces() {
+            if (!currentUser) return;
+
+            const nameInitial = currentUser.fullName.charAt(0).toUpperCase();
+            const elements = ['navAvatar', 'sidebarAvatar', 'feedAvatar', 'modalAvatar', 'dropdownAvatar', 'profileAvatarLarge'];
+
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (currentUser.photoURL) {
+                        element.innerHTML = `<img src="${currentUser.photoURL}" alt="صورة الملف">`;
+                    } else {
+                        element.textContent = nameInitial;
+                    }
+                }
+            });
+
+            document.getElementById('navUserName').textContent = currentUser.fullName;
+            document.getElementById('sidebarUserName').textContent = currentUser.fullName;
+            document.getElementById('modalUserName').textContent = currentUser.fullName;
+            document.getElementById('dropdownName').textContent = currentUser.fullName;
+            document.getElementById('dropdownUsername').textContent = '@' + currentUser.username;
+            document.getElementById('profileFullName').textContent = currentUser.fullName;
+            document.getElementById('profileBio').textContent = currentUser.bio || 'مرحباً، أنا عضو في You Chat';
+
+            if (currentUser.coverURL) {
+                document.getElementById('profileCoverImg').src = currentUser.coverURL;
+            }
+        }
+
+        // تحديث البادجات
+        function updateBadges() {
+            database.ref('friendRequests').orderByChild('toUserId').equalTo(currentUser.uid).once('value', (snapshot) => {
+                const count = snapshot.size;
+                if (count > 0) {
+                    document.getElementById('friendsBadge').style.display = 'inline';
+                    document.getElementById('friendsBadge').textContent = count;
+                    document.getElementById('sidebarFriendBadge').style.display = 'inline';
+                    document.getElementById('sidebarFriendBadge').textContent = count;
+                }
+            });
+        }
+
+        // ==========================
+        // دوال التنقل
+        // ==========================
+
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName + 'Page').classList.add('active');
+
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
+
+            const icons = document.querySelectorAll('.nav-icon');
+            if (pageName === 'feed') icons[0].classList.add('active');
+            else if (pageName === 'friends') icons[1].classList.add('active');
+            else if (pageName === 'reels') icons[2].classList.add('active');
+            else if (pageName === 'messages') icons[3].classList.add('active');
+        }
+
+        // ==========================
+        // دوال المنشورات
+        // ==========================
+
+        function openCreatePostModal(type = '') {
+            document.getElementById('createPostModal').classList.add('active');
+            if (type === 'image') selectImageModal();
+            if (type === 'video') selectVideoModal();
+        }
+
+        function closeCreatePostModal() {
+            document.getElementById('createPostModal').classList.remove('active');
+            document.getElementById('postContent').value = '';
+            document.getElementById('mediaPreview').style.display = 'none';
+            selectedImage = null;
+            selectedVideo = null;
+        }
+
+        function selectImageModal() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    selectedImage = file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.getElementById('mediaPreview');
+                        preview.innerHTML = `
+                            <img src="${e.target.result}" style="max-width:100%; max-height:300px; border-radius: 12px;">
+                            <div class="remove-media" onclick="removeSelectedMedia()">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function selectVideoModal() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    selectedVideo = file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.getElementById('mediaPreview');
+                        preview.innerHTML = `
+                            <video controls style="max-width:100%; max-height:300px; border-radius: 12px;">
+                                <source src="${e.target.result}">
+                            </video>
+                            <div class="remove-media" onclick="removeSelectedMedia()">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function removeSelectedMedia() {
+            selectedImage = null;
+            selectedVideo = null;
+            document.getElementById('mediaPreview').style.display = 'none';
+        }
+
+        async function publishPost() {
+            const content = document.getElementById('postContent').value;
+
+            if (!content && !selectedImage && !selectedVideo) {
+                alert('الرجاء إضافة محتوى للمنشور');
+                return;
+            }
+
+            try {
+                let imageUrl = null;
+                let videoUrl = null;
+
+                if (selectedImage) {
+                    const imageRef = storage.ref(`posts/${currentUser.uid}/${Date.now()}_${selectedImage.name}`);
+                    await imageRef.put(selectedImage);
+                    imageUrl = await imageRef.getDownloadURL();
+                }
+
+                if (selectedVideo) {
+                    const videoRef = storage.ref(`posts/${currentUser.uid}/${Date.now()}_${selectedVideo.name}`);
+                    await videoRef.put(selectedVideo);
+                    videoUrl = await videoRef.getDownloadURL();
+                }
+
+                const postsRef = database.ref('posts');
+                await postsRef.push({
+                    userId: currentUser.uid,
+                    userName: currentUser.fullName,
+                    userPhoto: currentUser.photoURL || '',
+                    content: content,
+                    imageUrl: imageUrl,
+                    videoUrl: videoUrl,
+                    likes: {},
+                    loves: {},
+                    cares: {},
+                    hahas: {},
+                    wows: {},
+                    sads: {},
+                    angrys: {},
+                    comments: {},
+                    shares: 0,
+                    createdAt: new Date().toISOString()
+                });
+
+                closeCreatePostModal();
+                loadPosts();
+                loadReels();
+                alert('تم نشر المنشور بنجاح!');
+
+            } catch (error) {
+                alert('حدث خطأ: ' + error.message);
+            }
+        }
+
+        // تحميل المنشورات
+        function loadPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+
+            const postsRef = database.ref('posts');
+            postsRef.orderByChild('createdAt').limitToLast(20).on('value', (snapshot) => {
+                        if (!snapshot.exists()) {
+                            container.innerHTML = '<div class="empty-state"><i class="fas fa-newspaper"></i><p>لا توجد منشورات بعد</p></div>';
+                            return;
+                        }
+
+                        let posts = [];
+                        snapshot.forEach(childSnapshot => {
+                            posts.push({
+                                id: childSnapshot.key,
+                                ...childSnapshot.val()
+                            });
+                        });
+
+                        posts.reverse();
+
+                        let postsHtml = '';
+                        posts.forEach(post => {
+                                    const totalLikes = Object.keys(post.likes || {}).length +
+                                        Object.keys(post.loves || {}).length +
+                                        Object.keys(post.cares || {}).length +
+                                        Object.keys(post.hahas || {}).length +
+                                        Object.keys(post.wows || {}).length +
+                                        Object.keys(post.sads || {}).length +
+                                        Object.keys(post.angrys || {}).length;
+
+                                    const comments = post.comments || {};
+                                    const commentsCount = Object.keys(comments).length;
+                                    const recentComments = Object.values(comments).slice(0, 2);
+
+                                    postsHtml += `
+                        <div class="post" id="post-${post.id}">
+                            <div class="post-header">
+                                <div class="post-author-avatar">
+                                    ${post.userPhoto ? `<img src="${post.userPhoto}">` : post.userName.charAt(0).toUpperCase()}
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">${post.userName}</div>
+                                    <div class="post-time">
+                                        ${new Date(post.createdAt).toLocaleString('ar-EG')}
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                </div>
+                                ${post.userId === currentUser.uid ? `
+                                    <div class="post-menu">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                        <div class="post-menu-dropdown">
+                                            <div class="post-menu-item" onclick="openEditPostModal('${post.id}', '${post.content}')">
+                                                <i class="fas fa-edit"></i> تعديل
+                                            </div>
+                                            <div class="post-menu-item" onclick="openDeletePostModal('${post.id}')">
+                                                <i class="fas fa-trash"></i> حذف
+                                            </div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="post-content">${post.content || ''}</div>
+                            ${post.imageUrl ? `
+                                <div class="post-media">
+                                    <img src="${post.imageUrl}" alt="صورة المنشور">
+                                </div>
+                            ` : ''}
+                            ${post.videoUrl ? `
+                                <div class="post-media">
+                                    <video controls>
+                                        <source src="${post.videoUrl}" type="video/mp4">
+                                    </video>
+                                </div>
+                            ` : ''}
+                            <div class="post-stats">
+                                <div class="reactions-summary">
+                                    ${totalLikes > 0 ? `
+                                        <div class="reaction-icons">
+                                            ${post.likes && Object.keys(post.likes).length > 0 ? '<span class="reaction-icon like"><i class="fas fa-thumbs-up"></i></span>' : ''}
+                                            ${post.loves && Object.keys(post.loves).length > 0 ? '<span class="reaction-icon love"><i class="fas fa-heart"></i></span>' : ''}
+                                            ${post.cares && Object.keys(post.cares).length > 0 ? '<span class="reaction-icon care"><i class="fas fa-smile"></i></span>' : ''}
+                                        </div>
+                                        <span>${totalLikes}</span>
+                                    ` : ''}
+                                </div>
+                                <div>
+                                    <span>${commentsCount} تعليق</span>
+                                    <span style="margin-right: 10px;">${post.shares || 0} مشاركة</span>
+                                </div>
+                            </div>
+                            <div class="post-actions-bar">
+                                <div class="reaction-popup" style="flex:1;">
+                                    <button class="post-action-btn ${post.likes && post.likes[currentUser.uid] ? 'liked' : ''}" onclick="addReaction('${post.id}', 'like')">
+                                        <i class="fas fa-thumbs-up"></i> إعجاب
+                                    </button>
+                                    <div class="reactions-panel">
+                                        <span class="reaction-option like" onclick="addReaction('${post.id}', 'like')">👍</span>
+                                        <span class="reaction-option love" onclick="addReaction('${post.id}', 'love')">❤️</span>
+                                        <span class="reaction-option care" onclick="addReaction('${post.id}', 'care')">🥰</span>
+                                        <span class="reaction-option haha" onclick="addReaction('${post.id}', 'haha')">😂</span>
+                                        <span class="reaction-option wow" onclick="addReaction('${post.id}', 'wow')">😮</span>
+                                        <span class="reaction-option sad" onclick="addReaction('${post.id}', 'sad')">😢</span>
+                                        <span class="reaction-option angry" onclick="addReaction('${post.id}', 'angry')">😠</span>
+                                    </div>
+                                </div>
+                                <button class="post-action-btn" onclick="toggleComments('${post.id}')">
+                                    <i class="fas fa-comment"></i> تعليق
+                                </button>
+                                <button class="post-action-btn" onclick="sharePost('${post.id}')">
+                                    <i class="fas fa-share"></i> مشاركة
+                                </button>
+                            </div>
+                            <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                                <div class="comments-header">
+                                    <span>التعليقات</span>
+                                    <span class="see-all" onclick="loadAllComments('${post.id}')">عرض الكل</span>
+                                </div>
+                                ${recentComments.map(comment => `
+                                    <div class="comment">
+                                        <div class="comment-avatar">
+                                            ${comment.userPhoto ? `<img src="${comment.userPhoto}">` : comment.userName.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div class="comment-content">
+                                            <div class="comment-author">${comment.userName}</div>
+                                            <div class="comment-text">${comment.text}</div>
+                                            <div class="comment-footer">
+                                                <span>إعجاب</span>
+                                                <span>رد</span>
+                                                <span class="comment-time">${new Date(comment.createdAt).toLocaleString('ar-EG')}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                <div class="add-comment">
+                                    <div class="comment-avatar">
+                                        ${currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : currentUser.fullName.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div class="comment-input-wrapper">
+                                        <input type="text" id="comment-input-${post.id}" placeholder="اكتب تعليقاً..." onkeypress="handleCommentKeyPress(event, '${post.id}')">
+                                        <button onclick="addComment('${post.id}')">نشر</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = postsHtml;
+            });
+        }
+
+        // إضافة تفاعل
+        async function addReaction(postId, type) {
+            const reactions = ['likes', 'loves', 'cares', 'hahas', 'wows', 'sads', 'angrys'];
+            const postRef = database.ref(`posts/${postId}`);
+            
+            // إزالة التفاعلات السابقة
+            for (const reaction of reactions) {
+                await database.ref(`posts/${postId}/${reaction}/${currentUser.uid}`).remove();
+            }
+            
+            // إضافة التفاعل الجديد
+            await database.ref(`posts/${postId}/${type}s/${currentUser.uid}`).set(true);
+        }
+
+        // إضافة تعليق
+        async function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            
+            if (!text) return;
+
+            const commentRef = database.ref(`posts/${postId}/comments`).push();
+            await commentRef.set({
+                userId: currentUser.uid,
+                userName: currentUser.fullName,
+                userPhoto: currentUser.photoURL || '',
+                text: text,
+                createdAt: new Date().toISOString()
+            });
+
+            input.value = '';
+            toggleComments(postId);
+        }
+
+        // إظهار/إخفاء التعليقات
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function handleCommentKeyPress(event, postId) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addComment(postId);
+            }
+        }
+
+        function sharePost(postId) {
+            alert('تم نسخ رابط المنشور');
+        }
+
+        // دوال تعديل وحذف المنشورات
+        function openEditPostModal(postId, content) {
+            currentEditingPostId = postId;
+            document.getElementById('editPostContent').value = content;
+            document.getElementById('editPostModal').classList.add('active');
+        }
+
+        function closeEditPostModal() {
+            document.getElementById('editPostModal').classList.remove('active');
+            currentEditingPostId = null;
+        }
+
+        async function saveEditedPost() {
+            const newContent = document.getElementById('editPostContent').value;
+            if (!newContent || !currentEditingPostId) return;
+
+            await database.ref(`posts/${currentEditingPostId}/content`).set(newContent);
+            closeEditPostModal();
+        }
+
+        function openDeletePostModal(postId) {
+            currentDeletingPostId = postId;
+            document.getElementById('deletePostModal').classList.add('active');
+        }
+
+        function closeDeletePostModal() {
+            document.getElementById('deletePostModal').classList.remove('active');
+            currentDeletingPostId = null;
+        }
+
+        async function confirmDeletePost() {
+            if (!currentDeletingPostId) return;
+            await database.ref(`posts/${currentDeletingPostId}`).remove();
+            closeDeletePostModal();
+        }
+
+        // ==========================
+        // دوال الريلز
+        // ==========================
+
+        function loadReels() {
+            const container = document.getElementById('reelsContainer');
+            
+            const postsRef = database.ref('posts');
+            postsRef.orderByChild('createdAt').limitToLast(10).on('value', (snapshot) => {
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-film"></i><p>لا توجد فيديوهات بعد</p></div>';
+                    return;
+                }
+
+                let reelsHtml = '';
+                snapshot.forEach(childSnapshot => {
+                    const post = childSnapshot.val();
+                    if (post.videoUrl) {
+                        reelsHtml += `
+                            <div class="reel-card" onclick="openReel('${childSnapshot.key}')">
+                                <div class="reel-thumbnail">
+                                    <video src="${post.videoUrl}"></video>
+                                    <div class="reel-overlay">
+                                        <div class="reel-user">
+                                            <div class="reel-user-avatar">
+                                                ${post.userPhoto ? `<img src="${post.userPhoto}">` : '<i class="fas fa-user"></i>'}
+                                            </div>
+                                            <span class="reel-user-name">${post.userName}</span>
+                                        </div>
+                                        <div class="reel-stats">
+                                            <span><i class="fas fa-heart"></i> ${Object.keys(post.likes || {}).length}</span>
+                                            <span><i class="fas fa-comment"></i> ${Object.keys(post.comments || {}).length}</span>
+                                        </div>
+                                    </div>
+                                    <div class="reel-play">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = reelsHtml || '<div class="empty-state"><i class="fas fa-film"></i><p>لا توجد فيديوهات بعد</p></div>';
+            });
+        }
+
+        function openReel(postId) {
+            alert('سيتم فتح الريل قريباً');
+        }
+
+        // ==========================
+        // دوال الأصدقاء
+        // ==========================
+
+        function loadAllUsers() {
+            const container = document.getElementById('friendsContent');
+            container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+
+            const usersRef = database.ref('users');
+            usersRef.on('value', (snapshot) => {
+                let html = '';
+                snapshot.forEach(childSnapshot => {
+                    const user = childSnapshot.val();
+                    const userId = childSnapshot.key;
+                    
+                    if (userId !== currentUser.uid) {
+                        html += `
+                            <div class="friend-card">
+                                <div class="friend-card-avatar">
+                                    ${user.photoURL ? `<img src="${user.photoURL}">` : user.fullName.charAt(0).toUpperCase()}
+                                </div>
+                                <div class="friend-card-name">${user.fullName}</div>
+                                <div class="friend-card-mutual">@${user.username}</div>
+                                <div class="friend-card-buttons">
+                                    <button class="friend-card-btn btn-confirm" onclick="sendFriendRequest('${userId}')">
+                                        <i class="fas fa-user-plus"></i> إضافة
+                                    </button>
+                                    <button class="friend-card-btn btn-delete" onclick="sendMessage('${userId}')">
+                                        <i class="fas fa-comment"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = html || '<div class="empty-state">لا يوجد مستخدمين</div>';
+            });
+        }
+
+        function switchFriendsTab(tab) {
+            loadAllUsers();
+        }
+
+        async function sendFriendRequest(targetUserId) {
+            await database.ref(`friendRequests/${Date.now()}`).set({
+                fromUserId: currentUser.uid,
+                fromUserName: currentUser.fullName,
+                toUserId: targetUserId,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            });
+            alert('تم إرسال طلب الصداقة');
+        }
+
+        // ==========================
+        // دوال الرسائل
+        // ==========================
+
+        function loadConversations() {
+            const container = document.getElementById('conversationsList');
+            
+            database.ref('messages').orderByChild('participants/' + currentUser.uid).on('value', (snapshot) => {
+                let conversations = {};
+                
+                snapshot.forEach(childSnapshot => {
+                    const msg = childSnapshot.val();
+                    const otherUserId = msg.fromUserId === currentUser.uid ? msg.toUserId : msg.fromUserId;
+                    
+                    if (!conversations[otherUserId] || new Date(msg.createdAt) > new Date(conversations[otherUserId].createdAt)) {
+                        conversations[otherUserId] = msg;
+                    }
+                });
+
+                let html = '';
+                Object.keys(conversations).forEach(async (userId) => {
+                    const userSnapshot = await database.ref(`users/${userId}`).once('value');
+                    const user = userSnapshot.val();
+                    
+                    html += `
+                        <div class="conversation-item" onclick="openChat('${userId}', '${user.fullName}')">
+                            <div class="conversation-avatar">
+                                ${user.photoURL ? `<img src="${user.photoURL}">` : user.fullName.charAt(0).toUpperCase()}
+                                <span class="online-status"></span>
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">${user.fullName}</div>
+                                <div class="conversation-last">
+                                    <span>${conversations[userId].text.substring(0, 20)}...</span>
+                                    <span class="conversation-time">${new Date(conversations[userId].createdAt).toLocaleTimeString('ar-EG')}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html || '<div style="padding: 20px; text-align: center;">لا توجد محادثات</div>';
+            });
+        }
+
+        function openChat(userId, userName) {
+            currentChatUser = { id: userId, name: userName };
+            
+            document.getElementById('chatHeader').innerHTML = `
+                <div class="chat-header-avatar">
+                    ${currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : currentUser.fullName.charAt(0).toUpperCase()}
+                </div>
+                <div class="chat-header-info">
+                    <div class="chat-header-name">${userName}</div>
+                    <div class="chat-header-status">نشط الآن</div>
+                </div>
+            `;
+            
+            document.getElementById('chatInputArea').style.display = 'flex';
+            
+            if (messagesListener) {
+                messagesListener();
+            }
+
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            messagesListener = database.ref('messages')
+                .orderByChild('timestamp')
+                .on('value', (snapshot) => {
+                    let messages = [];
+                    snapshot.forEach(childSnapshot => {
+                        const msg = childSnapshot.val();
+                        if ((msg.fromUserId === currentUser.uid && msg.toUserId === userId) ||
+                            (msg.fromUserId === userId && msg.toUserId === currentUser.uid)) {
+                            messages.push(msg);
+                        }
+                    });
+
+                    let html = '';
+                    messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    
+                    messages.forEach(msg => {
+                        const isSent = msg.fromUserId === currentUser.uid;
+                        html += `
+                            <div class="message-row ${isSent ? 'sent' : ''}">
+                                <div class="message-bubble">
+                                    ${msg.imageUrl ? `<div class="message-media"><img src="${msg.imageUrl}"></div>` : ''}
+                                    ${msg.videoUrl ? `<div class="message-media"><video src="${msg.videoUrl}" controls></video></div>` : ''}
+                                    ${msg.text ? msg.text : ''}
+                                    <div class="message-time">${new Date(msg.createdAt).toLocaleTimeString('ar-EG')}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    messagesContainer.innerHTML = html;
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                });
+        }
+
+        async function sendMessage() {
+            const text = document.getElementById('messageInput').value;
+            if (!text || !currentChatUser) return;
+
+            try {
+                await database.ref('messages').push({
+                    fromUserId: currentUser.uid,
+                    fromUserName: currentUser.fullName,
+                    toUserId: currentChatUser.id,
+                    toUserName: currentChatUser.name,
+                    text: text,
+                    participants: {
+                        [currentUser.uid]: true,
+                        [currentChatUser.id]: true
+                    },
+                    createdAt: new Date().toISOString(),
+                    read: false
+                });
+
+                document.getElementById('messageInput').value = '';
+            } catch (error) {
+                alert('حدث خطأ: ' + error.message);
+            }
+        }
+
+        function handleMessageKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function selectChatImage() {
+            alert('إضافة صورة للمحادثة');
+        }
+
+        function recordVoice() {
+            alert('تسجيل صوتي');
+        }
+
+        function openEmojiPicker() {
+            alert('إضافة إيموجي');
+        }
+
+        // ==========================
+        // دوال الملف الشخصي
+        // ==========================
+
+        function editProfile() {
+            document.getElementById('editFullName').value = currentUser.fullName || '';
+            document.getElementById('editBio').value = currentUser.bio || '';
+            document.getElementById('editEmail').value = currentUser.email || '';
+            document.getElementById('editPhone').value = currentUser.phone || '';
+            
+            if (currentUser.photoURL) {
+                document.getElementById('avatarPreview').src = currentUser.photoURL;
+            }
+            if (currentUser.coverURL) {
+                document.getElementById('coverPreview').src = currentUser.coverURL;
+            }
+            
+            document.getElementById('editProfileModal').classList.add('active');
+        }
+
+        function changeProfilePicture() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const storageRef = storage.ref(`profiles/${currentUser.uid}/${Date.now()}_${file.name}`);
+                        await storageRef.put(file);
+                        const photoURL = await storageRef.getDownloadURL();
+                        
+                        await database.ref(`users/${currentUser.uid}/photoURL`).set(photoURL);
+                        currentUser.photoURL = photoURL;
+                        
+                        document.getElementById('avatarPreview').src = photoURL;
+                        updateUserInterfaces();
+                    } catch (error) {
+                        alert('حدث خطأ: ' + error.message);
+                    }
+                }
+            };
+            input.click();
+        }
+
+        function changeCoverPicture() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const storageRef = storage.ref(`covers/${currentUser.uid}/${Date.now()}_${file.name}`);
+                        await storageRef.put(file);
+                        const coverURL = await storageRef.getDownloadURL();
+                        
+                        await database.ref(`users/${currentUser.uid}/coverURL`).set(coverURL);
+                        currentUser.coverURL = coverURL;
+                        
+                        document.getElementById('coverPreview').src = coverURL;
+                        document.getElementById('profileCoverImg').src = coverURL;
+                    } catch (error) {
+                        alert('حدث خطأ: ' + error.message);
+                    }
+                }
+            };
+            input.click();
+        }
+
+        async function saveProfile() {
+            const fullName = document.getElementById('editFullName').value;
+            const bio = document.getElementById('editBio').value;
+            const email = document.getElementById('editEmail').value;
+            const phone = document.getElementById('editPhone').value;
+
+            if (!fullName) {
+                alert('الاسم مطلوب');
+                return;
+            }
+
+            await database.ref(`users/${currentUser.uid}`).update({
+                fullName: fullName,
+                bio: bio,
+                email: email,
+                phone: phone
+            });
+
+            currentUser.fullName = fullName;
+            currentUser.bio = bio;
+            currentUser.email = email;
+            currentUser.phone = phone;
+
+            updateUserInterfaces();
+            closeModal('editProfileModal');
+            alert('تم حفظ التغييرات بنجاح');
+        }
+
+        function loadUserPosts() {
+            const container = document.getElementById('profileContent');
+            container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+
+            database.ref('posts').orderByChild('userId').equalTo(currentUser.uid).on('value', (snapshot) => {
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="empty-state">لا توجد منشورات بعد</div>';
+                    return;
+                }
+
+                let postsHtml = '';
+                snapshot.forEach(childSnapshot => {
+                    const post = childSnapshot.val();
+                    postsHtml += `
+                        <div class="post">
+                            <div class="post-content">${post.content || ''}</div>
+                            ${post.imageUrl ? `<img src="${post.imageUrl}" style="max-width:100%;">` : ''}
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = postsHtml;
+            });
+        }
+
+        // ==========================
+        // دوال جانبية
+        // ==========================
+
+        function loadContacts() {
+            const container = document.getElementById('contactsList');
+            
+            database.ref('users').limitToFirst(5).on('value', (snapshot) => {
+                let html = '';
+                snapshot.forEach(childSnapshot => {
+                    const user = childSnapshot.val();
+                    if (childSnapshot.key !== currentUser.uid) {
+                        html += `
+                            <div class="contact-item" onclick="openChat('${childSnapshot.key}', '${user.fullName}')">
+                                <div class="contact-avatar">
+                                    ${user.photoURL ? `<img src="${user.photoURL}">` : user.fullName.charAt(0).toUpperCase()}
+                                    <span class="contact-status"></span>
+                                </div>
+                                <span class="contact-name">${user.fullName}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = html;
+            });
+        }
+
+        function showNotifications() {
+            const modal = document.getElementById('notificationsModal');
+            const container = document.getElementById('notificationsList');
+            
+            container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            modal.classList.add('active');
+
+            database.ref('notifications').orderByChild('userId').equalTo(currentUser.uid).on('value', (snapshot) => {
+                let html = '';
+                snapshot.forEach(childSnapshot => {
+                    const notif = childSnapshot.val();
+                    html += `
+                        <div style="padding: 15px; border-bottom: 1px solid var(--border-color);">
+                            <p>${notif.message}</p>
+                            <small style="color: var(--light-text);">${new Date(notif.createdAt).toLocaleString('ar-EG')}</small>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html || '<div class="empty-state">لا توجد إشعارات</div>';
+            });
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // تحميل البيانات عند بدء التشغيل
+        setTimeout(() => {
+            if (currentUser) {
+                loadPosts();
+                loadReels();
+                loadAllUsers();
+                loadConversations();
+                loadContacts();
+            }
+        }, 1000);
+    </script>
 </body>
+
 </html>
