@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صراحة - رسائل مجهولة مع صور وإشعارات</title>
+    <title>صراحة - منصة الرسائل المجهولة</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -18,131 +18,161 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            color: var(--dark);
         }
 
-        .container {
+        /* Navbar */
+        .navbar {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header Styles */
-        .header {
-            background: white;
-            border-radius: 20px;
-            padding: 15px 30px;
-            margin-bottom: 30px;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 28px;
+            font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-decoration: none;
         }
 
-        .user-info {
+        .nav-links {
             display: flex;
+            gap: 1.5rem;
             align-items: center;
-            gap: 15px;
             flex-wrap: wrap;
         }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .username {
-            font-weight: bold;
-            color: #667eea;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .user-info-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .btn-logout {
-            background: #ff4757;
+            background: var(--danger);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         .btn-logout:hover {
-            background: #e84118;
-            transform: scale(0.98);
+            background: #dc2626;
+            transform: translateY(-2px);
         }
 
-        /* Main Layout */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
 
         /* Cards */
         .card {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
         }
 
-        .card h2 {
-            margin-bottom: 20px;
-            color: #667eea;
-            border-right: 4px solid #667eea;
-            padding-right: 15px;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
         }
 
-        /* Form Styles */
+        .card-header h2 {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #555;
+            color: var(--dark);
         }
 
-        input, textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.75rem;
             font-family: inherit;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
-        input:focus, textarea:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         textarea {
@@ -150,276 +180,177 @@
             min-height: 100px;
         }
 
-        /* Image Upload */
-        .image-upload {
-            border: 2px dashed #e0e0e0;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .image-upload:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
-        }
-
-        .image-preview {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 10px;
-            border-radius: 12px;
-            display: none;
-        }
-
-        .remove-image {
-            background: #ff4757;
-            color: white;
+        .btn {
+            padding: 0.75rem 1.5rem;
             border: none;
-            padding: 5px 10px;
-            border-radius: 20px;
+            border-radius: 2rem;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
-            font-size: 12px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .remove-image:hover {
-            background: #e84118;
-        }
-
-        .btn-send {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-block {
             width: 100%;
-            transition: all 0.3s ease;
+            justify-content: center;
         }
 
-        .btn-send:hover {
-            opacity: 0.9;
-            transform: scale(0.98);
+        /* Messages */
+        .messages-grid {
+            display: grid;
+            gap: 1rem;
         }
 
-        /* Messages List */
-        .messages-list {
-            max-height: 600px;
-            overflow-y: auto;
-        }
-
-        .message-item {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-right: 4px solid #667eea;
+        .message-card {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            border-right: 4px solid var(--primary);
+            transition: all 0.3s;
             position: relative;
-            transition: all 0.3s ease;
         }
 
-        .message-item:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .message-card:hover {
+            transform: translateX(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .message-card.unread {
+            background: #eef2ff;
+            border-right-color: var(--warning);
         }
 
         .message-text {
-            font-size: 16px;
-            margin-bottom: 10px;
-            word-wrap: break-word;
+            font-size: 1rem;
             line-height: 1.5;
+            margin-bottom: 0.75rem;
+            word-wrap: break-word;
         }
 
         .message-image {
             max-width: 100%;
-            max-height: 300px;
-            border-radius: 12px;
-            margin: 10px 0;
+            max-height: 250px;
+            border-radius: 0.75rem;
+            margin: 0.75rem 0;
             cursor: pointer;
-            transition: transform 0.3s ease;
         }
 
-        .message-image:hover {
-            transform: scale(1.02);
-        }
-
-        .message-date {
-            font-size: 12px;
-            color: #999;
-            margin-top: 10px;
-        }
-
-        .delete-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .delete-btn:hover {
-            background: #e84118;
-            transform: scale(1.1);
-        }
-
-        .empty-messages {
-            text-align: center;
-            color: #999;
-            padding: 40px;
-        }
-
-        /* Profile Link */
-        .profile-url {
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 14px;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #5a67d8;
-            transform: scale(0.98);
-        }
-
-        /* Auth Screen */
-        .auth-screen {
+        .message-meta {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .delete-msg-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .delete-msg-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Auth Pages */
+        .auth-container {
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
         .auth-card {
             background: white;
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
+            border-radius: 2rem;
+            padding: 2.5rem;
             max-width: 450px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.5s ease;
         }
 
         .auth-card h1 {
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .btn-auth {
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 8px 0;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-auth-google {
-            background: #db4437;
-        }
-
-        .btn-auth-google:hover {
-            background: #c53929;
-        }
-
-        .btn-auth-fb {
-            background: #4267B2;
-        }
-
-        .btn-auth-fb:hover {
-            background: #365899;
-        }
-
-        .btn-auth-anon {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .btn-auth-anon:hover {
-            opacity: 0.9;
-        }
-
-        .divider {
-            margin: 20px 0;
-            position: relative;
             text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
         }
 
-        .divider::before,
-        .divider::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            width: 45%;
-            height: 1px;
-            background: #e0e0e0;
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
         }
 
-        .divider::before {
-            left: 0;
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        .divider::after {
-            right: 0;
+        .auth-footer a:hover {
+            text-decoration: underline;
         }
 
-        .divider span {
-            background: white;
-            padding: 0 10px;
-            color: #999;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* Toast Notification */
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #333;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark);
             color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
             z-index: 1000;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Modal for Image */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -437,158 +368,194 @@
         .modal-img {
             max-width: 90%;
             max-height: 90%;
-            object-fit: contain;
         }
 
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* Hidden */
+        .hidden {
+            display: none;
         }
 
-        .modal-close:hover {
-            color: #ff4757;
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #667eea;
-        }
-
-        /* Notification Badge */
-        .notification-badge {
-            background: #ff4757;
+        /* Badge */
+        .badge {
+            background: var(--danger);
             color: white;
             border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 10px;
-            margin-right: 8px;
+            padding: 0.125rem 0.5rem;
+            font-size: 0.75rem;
+            margin-right: 0.25rem;
         }
 
-        /* Scrollbar */
-        .messages-list::-webkit-scrollbar {
-            width: 8px;
+        /* Loading Spinner */
+        .spinner {
+            animation: spin 1s linear infinite;
         }
 
-        .messages-list::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .messages-list::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .messages-list::-webkit-scrollbar-thumb:hover {
-            background: #764ba2;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            .auth-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
 <div id="app">
-    <!-- Auth Screen -->
-    <div id="authScreen" class="auth-screen">
-        <div class="auth-card">
-            <i class="fas fa-envelope" style="font-size: 60px; color: #667eea; margin-bottom: 20px;"></i>
-            <h1>صراحة</h1>
-            <p style="margin-bottom: 30px; color: #666;">منصة الرسائل المجهولة - تواصل بصدق دون الكشف عن هويتك</p>
-            
-            <button class="btn-auth btn-auth-google" id="googleLoginBtn">
-                <i class="fab fa-google"></i> تسجيل الدخول بجوجل
-            </button>
-            
-            <button class="btn-auth btn-auth-fb" id="facebookLoginBtn">
-                <i class="fab fa-facebook-f"></i> تسجيل الدخول بفيسبوك
-            </button>
-            
-            <div class="divider">
-                <span>أو</span>
+    <!-- Auth Container (Login/Register) -->
+    <div id="authContainer" class="auth-container">
+        <!-- Login Form -->
+        <div id="loginFormCard" class="auth-card">
+            <h1><i class="fas fa-envelope"></i> صراحة</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> اسم المستخدم</label>
+                    <input type="text" id="loginUsername" placeholder="أدخل اسم المستخدم" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> كلمة المرور</label>
+                    <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            </form>
+            <div class="auth-footer">
+                ليس لديك حساب؟ <a id="showRegisterBtn">سجل حساب جديد</a>
             </div>
-            
-            <button class="btn-auth btn-auth-anon" id="anonymousLoginBtn">
-                <i class="fas fa-user-secret"></i> دخول مجهول
-            </button>
-            
-            <p style="margin-top: 20px; font-size: 12px; color: #999;">
-                ✅ آمن 100% | ❤️ رسائل مجهولة | 🖼️ إرسال صور | 🔔 إشعارات فورية
-            </p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerFormCard" class="auth-card hidden">
+            <h1><i class="fas fa-user-plus"></i> حساب جديد</h1>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> اسم المستخدم</label>
+                    <input type="text" id="registerUsername" placeholder="اختر اسم مستخدم (3-20 حرف)" required autocomplete="username">
+                    <small style="color: var(--gray); font-size: 0.75rem;">يمكن استخدام الحروف والأرقام فقط</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> كلمة المرور</label>
+                    <input type="password" id="registerPassword" placeholder="أدخل كلمة المرور (6 أحرف على الأقل)" required autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-check-circle"></i> تأكيد كلمة المرور</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="أعد إدخال كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب
+                </button>
+            </form>
+            <div class="auth-footer">
+                لديك حساب؟ <a id="showLoginBtn">تسجيل الدخول</a>
+            </div>
         </div>
     </div>
 
     <!-- Main App -->
     <div id="mainApp" class="hidden">
-        <div class="container">
-            <div class="header">
-                <div class="logo">📨 صراحة</div>
-                <div class="user-info">
-                    <img id="userAvatar" class="user-avatar" style="display: none;">
-                    <span class="username" id="userName"></span>
-                    <button class="btn-logout" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt"></i> خروج
-                    </button>
-                </div>
-            </div>
-
-            <div class="main-content">
-                <!-- Send Message Section -->
-                <div class="card">
-                    <h2><i class="fas fa-paper-plane"></i> أرسل رسالة مجهولة</h2>
-                    
-                    <div class="form-group">
-                        <label>إلى من تريد إرسال الرسالة؟</label>
-                        <input type="text" id="recipientUsername" placeholder="أدخل معرف المستخدم المستهدف" dir="ltr">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>نص الرسالة (اختياري)</label>
-                        <textarea id="messageText" placeholder="اكتب رسالتك هنا... (لن يعرف المرسل هويتك)"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>إضافة صورة (اختياري)</label>
-                        <div class="image-upload" id="imageUploadBtn">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 24px;"></i>
-                            <p>اضغط لرفع صورة</p>
-                            <input type="file" id="imageFile" accept="image/*" style="display: none;">
-                        </div>
-                        <img id="imagePreview" class="image-preview">
-                        <button id="removeImageBtn" class="remove-image" style="display: none;">
-                            <i class="fas fa-times"></i> إزالة الصورة
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">📨 صراحة</a>
+                <div class="nav-links">
+                    <a href="#" id="navInbox" class="active">
+                        <i class="fas fa-inbox"></i> رسائلي
+                    </a>
+                    <a href="#" id="navSend">
+                        <i class="fas fa-paper-plane"></i> إرسال رسالة
+                    </a>
+                    <div class="user-info-nav">
+                        <span id="navUsername"></span>
+                        <button class="btn-logout" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> خروج
                         </button>
                     </div>
-                    
-                    <button class="btn-send" id="sendMessageBtn">
-                        <i class="fas fa-share"></i> إرسال anonymously
-                    </button>
-                    
-                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee;">
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Inbox Page -->
+            <div id="inboxPage">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-inbox"></i> رسائلي</h2>
+                        <span id="unreadCountBadge" class="badge" style="display: none;">0</span>
+                    </div>
+                    <div id="messagesList" class="messages-grid">
+                        <div class="empty-state">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <p>لا توجد رسائل بعد</p>
+                            <small>شارك رابطك مع الأصدقاء ليصلوا إليك رسائل مجهولة</small>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
                         <label><i class="fas fa-link"></i> رابط ملفك الشخصي</label>
-                        <div class="profile-url" id="profileUrl"></div>
-                        <button class="copy-btn" id="copyProfileBtn">
+                        <div style="background: var(--light); padding: 0.75rem; border-radius: 0.75rem; margin-top: 0.5rem; word-break: break-all; font-size: 0.875rem;" id="profileUrl"></div>
+                        <button class="btn btn-primary" id="copyProfileBtn" style="margin-top: 0.75rem;">
                             <i class="fas fa-copy"></i> نسخ الرابط
                         </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Receive Messages Section -->
+            <!-- Send Message Page -->
+            <div id="sendPage" class="hidden">
                 <div class="card">
-                    <h2>
-                        <i class="fas fa-inbox"></i> رسائلك 
-                        <span id="newMessagesBadge"></span>
-                    </h2>
-                    <div id="messagesContainer" class="messages-list">
-                        <div class="loading">
-                            <i class="fas fa-spinner fa-spin"></i> جاري تحميل الرسائل...
-                        </div>
+                    <div class="card-header">
+                        <h2><i class="fas fa-paper-plane"></i> إرسال رسالة مجهولة</h2>
                     </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> إلى من تريد إرسال الرسالة؟</label>
+                        <input type="text" id="recipientUsername" placeholder="أدخل اسم المستخدم المستهدف" dir="ltr">
+                        <small style="color: var(--gray);">أدخل اسم المستخدم الذي تريد إرسال الرسالة إليه</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> نص الرسالة</label>
+                        <textarea id="messageText" placeholder="اكتب رسالتك هنا... لن يعرف المرسل هويتك"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> إضافة صورة (اختياري)</label>
+                        <div class="image-upload" id="imageUploadBtn" style="border: 2px dashed var(--border); border-radius: 0.75rem; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                            <p>اضغط لرفع صورة</p>
+                            <input type="file" id="imageFile" accept="image/*" style="display: none;">
+                        </div>
+                        <img id="imagePreview" style="max-width: 100%; max-height: 200px; margin-top: 0.75rem; border-radius: 0.75rem; display: none;">
+                        <button id="removeImageBtn" class="btn btn-danger" style="margin-top: 0.5rem; display: none;">
+                            <i class="fas fa-times"></i> إزالة الصورة
+                        </button>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" id="sendMessageBtn">
+                        <i class="fas fa-share"></i> إرسال anonymously
+                    </button>
                 </div>
             </div>
         </div>
@@ -596,25 +563,14 @@
 </div>
 
 <div id="toast" class="toast"></div>
-
-<!-- Modal for Image -->
 <div id="imageModal" class="modal">
-    <span class="modal-close">&times;</span>
+    <span style="position: absolute; top: 20px; right: 40px; color: white; font-size: 40px; cursor: pointer;" onclick="document.getElementById('imageModal').style.display='none';">&times;</span>
     <img class="modal-img" id="modalImage">
 </div>
 
 <script type="module">
-    // Import Firebase modules
+    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { 
-        getAuth, 
-        signInAnonymously, 
-        onAuthStateChanged, 
-        signOut, 
-        GoogleAuthProvider, 
-        FacebookAuthProvider, 
-        signInWithPopup 
-    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { 
         getFirestore, 
         collection, 
@@ -627,7 +583,9 @@
         onSnapshot, 
         orderBy, 
         serverTimestamp, 
-        updateDoc 
+        updateDoc,
+        setDoc,
+        getDoc
     } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
     import { 
         getStorage, 
@@ -636,44 +594,35 @@
         getDownloadURL, 
         deleteObject 
     } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
-    import { 
-        getMessaging, 
-        getToken, 
-        onMessage 
-    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-messaging.js";
 
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyABD_gJMjIx5BBIU925Upwi_8zDbc3EDCU",
-  authDomain: "you-chat-4b169.firebaseapp.com",
-  databaseURL: "https://you-chat-4b169-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "you-chat-4b169",
-  storageBucket: "you-chat-4b169.firebasestorage.app",
-  messagingSenderId: "593383830616",
-  appId: "1:593383830616:web:5117ece10972a75e95c62d",
-  measurementId: "G-YJ2H5H1Q9N"
-};
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyABD_gJMjIx5BBIU925Upwi_8zDbc3EDCU",
+        authDomain: "you-chat-4b169.firebaseapp.com",
+        databaseURL: "https://you-chat-4b169-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "you-chat-4b169",
+        storageBucket: "you-chat-4b169.firebasestorage.app",
+        messagingSenderId: "593383830616",
+        appId: "1:593383830616:web:5117ece10972a75e95c62d",
+        measurementId: "G-YJ2H5H1Q9N"
+    };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
     const storage = getStorage(app);
-    const messaging = getMessaging(app);
     
     // Global variables
     let currentUser = null;
     let selectedImageFile = null;
     let unsubscribeMessages = null;
-    let currentUnreadCount = 0;
-
+    
     // Helper Functions
     function showToast(message, isError = false) {
         const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.style.backgroundColor = isError ? '#ff4757' : '#333';
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+        toast.style.backgroundColor = isError ? '#ef4444' : '#1f2937';
         toast.style.opacity = '1';
-        
         setTimeout(() => {
             toast.style.opacity = '0';
         }, 3000);
@@ -686,94 +635,53 @@ const firebaseConfig = {
         return div.innerHTML;
     }
 
-    async function saveUserToFirestore(user) {
+    function formatDate(timestamp) {
+        if (!timestamp) return 'الآن';
         try {
-            const usersRef = collection(db, 'users');
-            const q = query(usersRef, where('userId', '==', user.uid));
-            const snapshot = await getDocs(q);
-            
-            let username = user.displayName || `user_${user.uid.slice(0, 8)}`;
-            let photoURL = user.photoURL || null;
-            
-            if (snapshot.empty) {
-                await addDoc(collection(db, 'users'), {
-                    userId: user.uid,
-                    username: username,
-                    photoURL: photoURL,
-                    email: user.email || null,
-                    createdAt: serverTimestamp()
-                });
-            } else {
-                // Update user data if needed
-                const userDoc = snapshot.docs[0];
-                if (photoURL && userDoc.data().photoURL !== photoURL) {
-                    await updateDoc(doc(db, 'users', userDoc.id), { 
-                        photoURL: photoURL,
-                        lastLogin: serverTimestamp()
-                    });
-                }
-            }
-        } catch (error) {
-            console.error('Error saving user:', error);
+            const date = timestamp.toDate();
+            const now = new Date();
+            const diff = now - date;
+            if (diff < 60000) return 'الآن';
+            if (diff < 3600000) return `منذ ${Math.floor(diff / 60000)} دقيقة`;
+            if (diff < 86400000) return `منذ ${Math.floor(diff / 3600000)} ساعة`;
+            return date.toLocaleDateString('ar-EG');
+        } catch (e) {
+            return 'الآن';
         }
     }
 
-    async function requestNotificationPermission(userId) {
-        if (!('Notification' in window)) {
-            console.log('This browser does not support notifications');
-            return;
-        }
-
-        if (Notification.permission === 'granted') {
-            return;
-        }
-
-        if (Notification.permission !== 'denied') {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                try {
-                    const token = await getToken(messaging, { 
-                        vapidKey: 'YOUR_VAPID_KEY' // Add your VAPID key here
-                    });
-                    if (token) {
-                        await addDoc(collection(db, 'fcmTokens'), {
-                            userId: userId,
-                            token: token,
-                            createdAt: serverTimestamp()
-                        });
-                        console.log('FCM token saved');
-                    }
-                } catch (error) {
-                    console.log('FCM not supported:', error);
-                }
-            }
-        }
+    // Validate username
+    function isValidUsername(username) {
+        const usernameRegex = /^[a-zA-Z0-9_\u0600-\u06FF]{3,20}$/;
+        return usernameRegex.test(username);
     }
 
-    // Load and display messages
-    function loadMessages(userId) {
+    // Load messages for current user
+    function loadMessages() {
+        if (!currentUser) return;
+        
         if (unsubscribeMessages) {
             unsubscribeMessages();
         }
         
-        const container = document.getElementById('messagesContainer');
+        const container = document.getElementById('messagesList');
         const messagesRef = collection(db, 'messages');
         const q = query(
             messagesRef, 
-            where('recipientId', '==', userId), 
+            where('recipientId', '==', currentUser.username), 
             orderBy('createdAt', 'desc')
         );
         
         unsubscribeMessages = onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 container.innerHTML = `
-                    <div class="empty-messages">
-                        <i class="fas fa-envelope-open-text" style="font-size: 48px; margin-bottom: 10px;"></i>
-                        <br>لا توجد رسائل بعد. شارك رابطك لاستقبال الرسائل!
+                    <div class="empty-state">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <p>لا توجد رسائل بعد</p>
+                        <small>شارك رابطك مع الأصدقاء ليصلوا إليك رسائل مجهولة</small>
                     </div>
                 `;
-                document.getElementById('newMessagesBadge').innerHTML = '';
-                currentUnreadCount = 0;
+                document.getElementById('unreadCountBadge').style.display = 'none';
                 return;
             }
             
@@ -782,82 +690,76 @@ const firebaseConfig = {
             
             snapshot.forEach(doc => {
                 const msg = doc.data();
-                if (!msg.read) {
-                    unreadCount++;
-                }
+                if (!msg.read) unreadCount++;
                 
                 html += `
-                    <div class="message-item">
-                        <button class="delete-btn" onclick="window.deleteMessage('${doc.id}', '${msg.imageUrl || ''}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        ${msg.text ? `<div class="message-text">${escapeHtml(msg.text)}</div>` : ''}
+                    <div class="message-card ${!msg.read ? 'unread' : ''}">
+                        <div class="message-text">${escapeHtml(msg.text) || ''}</div>
                         ${msg.imageUrl ? `<img src="${msg.imageUrl}" class="message-image" onclick="window.showImageModal('${msg.imageUrl}')">` : ''}
-                        <div class="message-date">
-                            <i class="far fa-clock"></i> ${msg.createdAt ? new Date(msg.createdAt.toDate()).toLocaleString('ar-EG') : 'الآن'}
+                        <div class="message-meta">
+                            <span><i class="far fa-clock"></i> ${formatDate(msg.createdAt)}</span>
+                            <button class="delete-msg-btn" onclick="window.deleteMessage('${doc.id}', '${msg.imageUrl || ''}')">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
                         </div>
                     </div>
                 `;
                 
-                // Mark message as read
+                // Mark as read
                 if (!msg.read) {
-                    updateDoc(doc.ref, { read: true });
+                    updateDoc(doc.ref, { read: true, readAt: serverTimestamp() });
                 }
             });
             
             container.innerHTML = html;
             
             // Update unread badge
-            if (unreadCount > 0 && unreadCount !== currentUnreadCount) {
-                currentUnreadCount = unreadCount;
-                const badge = document.getElementById('newMessagesBadge');
-                badge.innerHTML = `<span class="notification-badge">${unreadCount}</span>`;
-                
-                // Show browser notification
-                if (Notification.permission === 'granted') {
-                    new Notification('📨 رسالة جديدة في صراحة', {
-                        body: `لديك ${unreadCount} رسالة جديدة`,
-                        icon: 'https://via.placeholder.com/64',
-                        badge: 'https://via.placeholder.com/32'
-                    });
-                }
-            } else if (unreadCount === 0) {
-                document.getElementById('newMessagesBadge').innerHTML = '';
-                currentUnreadCount = 0;
+            const badge = document.getElementById('unreadCountBadge');
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
             }
         }, (error) => {
             console.error('Error loading messages:', error);
-            container.innerHTML = '<div class="empty-messages">حدث خطأ في تحميل الرسائل</div>';
+            container.innerHTML = '<div class="empty-state">حدث خطأ في تحميل الرسائل</div>';
         });
     }
 
-    // Send message function
+    // Send message
     async function sendMessage() {
         const recipientUsername = document.getElementById('recipientUsername').value.trim();
         const messageText = document.getElementById('messageText').value.trim();
+        const sendBtn = document.getElementById('sendMessageBtn');
         
         if (!recipientUsername) {
             showToast('⚠️ الرجاء إدخال اسم المستخدم المستهدف', true);
+            document.getElementById('recipientUsername').focus();
             return;
         }
         
         if (!messageText && !selectedImageFile) {
             showToast('⚠️ الرجاء كتابة رسالة أو إضافة صورة', true);
+            document.getElementById('messageText').focus();
             return;
         }
         
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+        
         try {
-            // Find recipient user
-            const usersRef = collection(db, 'users');
-            const q = query(usersRef, where('username', '==', recipientUsername));
-            const snapshot = await getDocs(q);
+            // Check if recipient exists
+            const userDocRef = doc(db, 'users', recipientUsername);
+            const userDoc = await getDoc(userDocRef);
             
-            if (snapshot.empty) {
-                showToast('❌ المستخدم غير موجود', true);
+            if (!userDoc.exists()) {
+                showToast('❌ المستخدم غير موجود. تأكد من اسم المستخدم', true);
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-share"></i> إرسال anonymously';
                 return;
             }
             
-            const recipient = snapshot.docs[0].data();
             let imageUrl = null;
             
             // Upload image if exists
@@ -872,8 +774,8 @@ const firebaseConfig = {
             await addDoc(collection(db, 'messages'), {
                 senderId: 'anonymous',
                 senderName: 'مجهول',
-                recipientId: recipient.userId,
-                recipientName: recipient.username,
+                recipientId: recipientUsername,
+                recipientName: recipientUsername,
                 text: messageText || '',
                 imageUrl: imageUrl,
                 createdAt: serverTimestamp(),
@@ -891,32 +793,30 @@ const firebaseConfig = {
         } catch (error) {
             console.error('Error sending message:', error);
             showToast('❌ حدث خطأ في الإرسال', true);
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-share"></i> إرسال anonymously';
         }
     }
 
-    // Delete message function
+    // Delete message
     window.deleteMessage = async function(messageId, imageUrl) {
-        if (!confirm('هل تريد حذف هذه الرسالة؟')) {
-            return;
-        }
+        if (!confirm('هل تريد حذف هذه الرسالة؟')) return;
         
         try {
-            // Delete image from storage if exists
             if (imageUrl) {
                 try {
                     const imageRef = ref(storage, imageUrl);
                     await deleteObject(imageRef);
-                } catch (error) {
-                    console.log('Error deleting image:', error);
+                } catch (e) {
+                    console.log('Image delete error:', e);
                 }
             }
-            
-            // Delete message from Firestore
             await deleteDoc(doc(db, 'messages', messageId));
             showToast('🗑️ تم حذف الرسالة');
         } catch (error) {
-            console.error('Error deleting message:', error);
-            showToast('❌ حدث خطأ في حذف الرسالة', true);
+            console.error('Delete error:', error);
+            showToast('❌ حدث خطأ في الحذف', true);
         }
     };
 
@@ -928,197 +828,307 @@ const firebaseConfig = {
         modalImg.src = imageUrl;
     };
 
-    // Auth methods
-    async function googleLogin() {
+    // Register new user
+    async function registerUser(username, password) {
         try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            await saveUserToFirestore(result.user);
-            showToast(`👋 مرحباً ${result.user.displayName || 'مستخدم جديد'}`);
-        } catch (error) {
-            console.error('Google login error:', error);
-            showToast('❌ فشل تسجيل الدخول بجوجل', true);
-        }
-    }
-    
-    async function facebookLogin() {
-        try {
-            const provider = new FacebookAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            await saveUserToFirestore(result.user);
-            showToast(`👋 مرحباً ${result.user.displayName || 'مستخدم جديد'}`);
-        } catch (error) {
-            console.error('Facebook login error:', error);
-            showToast('❌ فشل تسجيل الدخول بفيسبوك', true);
-        }
-    }
-    
-    async function anonymousLogin() {
-        try {
-            const result = await signInAnonymously(auth);
-            await saveUserToFirestore(result.user);
-            showToast('👤 تم تسجيل الدخول كمستخدم مجهول');
-        } catch (error) {
-            console.error('Anonymous login error:', error);
-            showToast('❌ فشل تسجيل الدخول', true);
-        }
-    }
-    
-    async function logout() {
-        try {
-            await signOut(auth);
-            if (unsubscribeMessages) {
-                unsubscribeMessages();
+            // Validate username
+            if (!isValidUsername(username)) {
+                showToast('⚠️ اسم المستخدم يجب أن يكون 3-20 حرف (حروف، أرقام، _ فقط)', true);
+                return false;
             }
-            showToast('👋 تم تسجيل الخروج بنجاح');
+            
+            // Check if username exists
+            const userDocRef = doc(db, 'users', username);
+            const userDoc = await getDoc(userDocRef);
+            
+            if (userDoc.exists()) {
+                showToast('❌ اسم المستخدم موجود بالفعل', true);
+                return false;
+            }
+            
+            // Create user with username as document ID
+            await setDoc(userDocRef, {
+                username: username,
+                password: password, // Note: In production, use proper hashing
+                createdAt: serverTimestamp(),
+                lastActive: serverTimestamp()
+            });
+            
+            return true;
         } catch (error) {
-            console.error('Logout error:', error);
-            showToast('❌ حدث خطأ في تسجيل الخروج', true);
+            console.error('Register error:', error);
+            showToast('❌ حدث خطأ في إنشاء الحساب', true);
+            return false;
         }
     }
 
-    // Listen to messages while app is open
-    onMessage(messaging, (payload) => {
-        console.log('Message received:', payload);
-        showToast(payload.notification?.body || '📨 لديك رسالة جديدة');
-    });
+    // Login user
+    async function loginUser(username, password) {
+        try {
+            const userDocRef = doc(db, 'users', username);
+            const userDoc = await getDoc(userDocRef);
+            
+            if (!userDoc.exists()) {
+                showToast('❌ اسم المستخدم غير موجود', true);
+                return false;
+            }
+            
+            const userData = userDoc.data();
+            if (userData.password !== password) {
+                showToast('❌ كلمة المرور غير صحيحة', true);
+                return false;
+            }
+            
+            // Update last active
+            await updateDoc(userDocRef, {
+                lastActive: serverTimestamp()
+            });
+            
+            currentUser = { username: username, ...userData };
+            return true;
+        } catch (error) {
+            console.error('Login error:', error);
+            showToast('❌ حدث خطأ في تسجيل الدخول', true);
+            return false;
+        }
+    }
 
-    // Auth state observer
-    onAuthStateChanged(auth, async (user) => {
-        const authScreen = document.getElementById('authScreen');
-        const mainApp = document.getElementById('mainApp');
+    // Logout
+    function logout() {
+        currentUser = null;
+        if (unsubscribeMessages) unsubscribeMessages();
+        document.getElementById('mainApp').classList.add('hidden');
+        document.getElementById('authContainer').classList.remove('hidden');
+        document.getElementById('loginFormCard').classList.remove('hidden');
+        document.getElementById('registerFormCard').classList.add('hidden');
+        // Clear forms
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+        showToast('👋 تم تسجيل الخروج');
+    }
+
+    // Update UI after login
+    function updateUIAfterLogin() {
+        document.getElementById('authContainer').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('navUsername').innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.username}`;
         
-        if (user) {
-            currentUser = user;
-            authScreen.classList.add('hidden');
-            mainApp.classList.remove('hidden');
-            
-            // Get user data
-            const usersRef = collection(db, 'users');
-            const q = query(usersRef, where('userId', '==', user.uid));
-            const snapshot = await getDocs(q);
-            
-            let username = `user_${user.uid.slice(0, 8)}`;
-            let photoURL = null;
-            
-            if (!snapshot.empty) {
-                const userData = snapshot.docs[0].data();
-                username = userData.username;
-                photoURL = userData.photoURL;
-            }
-            
-            // Update UI
-            document.getElementById('userName').innerHTML = `<i class="fas fa-user-circle"></i> ${username}`;
-            
-            if (photoURL) {
-                const avatar = document.getElementById('userAvatar');
-                avatar.src = photoURL;
-                avatar.style.display = 'inline-block';
-            }
-            
-            // Generate profile URL
-            const profileUrl = `${window.location.origin}${window.location.pathname}?profile=${encodeURIComponent(username)}`;
-            document.getElementById('profileUrl').innerHTML = `<i class="fas fa-link"></i> ${profileUrl}`;
-            
-            // Load messages
-            loadMessages(user.uid);
-            
-            // Request notification permission
-            await requestNotificationPermission(user.uid);
-        } else {
-            authScreen.classList.remove('hidden');
-            mainApp.classList.add('hidden');
-            currentUser = null;
-            if (unsubscribeMessages) {
-                unsubscribeMessages();
-            }
-        }
-    });
+        // Generate profile URL
+        const profileUrl = `${window.location.origin}${window.location.pathname}?to=${encodeURIComponent(currentUser.username)}`;
+        document.getElementById('profileUrl').innerHTML = profileUrl;
+        
+        // Load messages
+        loadMessages();
+        
+        // Show inbox page
+        showInboxPage();
+        
+        showToast(`👋 مرحباً ${currentUser.username}`);
+    }
+
+    // Page navigation
+    function showInboxPage() {
+        document.getElementById('inboxPage').classList.remove('hidden');
+        document.getElementById('sendPage').classList.add('hidden');
+        document.getElementById('navInbox').classList.add('active');
+        document.getElementById('navSend').classList.remove('active');
+    }
+    
+    function showSendPage() {
+        document.getElementById('inboxPage').classList.add('hidden');
+        document.getElementById('sendPage').classList.remove('hidden');
+        document.getElementById('navSend').classList.add('active');
+        document.getElementById('navInbox').classList.remove('active');
+    }
 
     // Event Listeners
-    document.getElementById('googleLoginBtn')?.addEventListener('click', googleLogin);
-    document.getElementById('facebookLoginBtn')?.addEventListener('click', facebookLogin);
-    document.getElementById('anonymousLoginBtn')?.addEventListener('click', anonymousLogin);
-    document.getElementById('logoutBtn')?.addEventListener('click', logout);
-    document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!username || !password) {
+            showToast('⚠️ الرجاء ملء جميع الحقول', true);
+            return;
+        }
+        
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التسجيل...';
+        
+        const success = await loginUser(username, password);
+        
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+        
+        if (success) {
+            updateUIAfterLogin();
+        }
+    });
     
-    // Image upload handlers
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('registerUsername').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        
+        if (!username || !password || !confirmPassword) {
+            showToast('⚠️ الرجاء ملء جميع الحقول', true);
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showToast('⚠️ كلمة المرور غير متطابقة', true);
+            return;
+        }
+        
+        if (password.length < 6) {
+            showToast('⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل', true);
+            return;
+        }
+        
+        const registerBtn = document.getElementById('registerBtn');
+        registerBtn.disabled = true;
+        registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
+        
+        const success = await registerUser(username, password);
+        
+        registerBtn.disabled = false;
+        registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
+        
+        if (success) {
+            showToast('✅ تم إنشاء الحساب بنجاح! يمكنك تسجيل الدخول الآن');
+            document.getElementById('registerFormCard').classList.add('hidden');
+            document.getElementById('loginFormCard').classList.remove('hidden');
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('registerConfirmPassword').value = '';
+            document.getElementById('loginUsername').value = username;
+        }
+    });
+    
+    document.getElementById('showRegisterBtn').addEventListener('click', () => {
+        document.getElementById('loginFormCard').classList.add('hidden');
+        document.getElementById('registerFormCard').classList.remove('hidden');
+    });
+    
+    document.getElementById('showLoginBtn').addEventListener('click', () => {
+        document.getElementById('registerFormCard').classList.add('hidden');
+        document.getElementById('loginFormCard').classList.remove('hidden');
+    });
+    
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('navInbox').addEventListener('click', (e) => {
+        e.preventDefault();
+        showInboxPage();
+    });
+    
+    document.getElementById('navSend').addEventListener('click', (e) => {
+        e.preventDefault();
+        showSendPage();
+    });
+    
+    document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+    
+    // Image upload
     const imageUploadBtn = document.getElementById('imageUploadBtn');
-    const imageFile = document.getElementById('imageFile');
+    const imageFileInput = document.getElementById('imageFile');
     const imagePreview = document.getElementById('imagePreview');
     const removeImageBtn = document.getElementById('removeImageBtn');
     
-    imageUploadBtn?.addEventListener('click', () => {
-        imageFile.click();
-    });
+    if (imageUploadBtn) {
+        imageUploadBtn.addEventListener('click', () => imageFileInput.click());
+    }
     
-    imageFile?.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            selectedImageFile = file;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
-                removeImageBtn.style.display = 'inline-block';
-            };
-            reader.readAsDataURL(file);
-        } else if (file) {
-            showToast('⚠️ الرجاء اختيار صورة صالحة', true);
-        }
-    });
+    if (imageFileInput) {
+        imageFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('⚠️ حجم الصورة كبير جداً (الحد 5MB)', true);
+                    return;
+                }
+                selectedImageFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    removeImageBtn.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            } else if (file) {
+                showToast('⚠️ الرجاء اختيار صورة صالحة', true);
+            }
+        });
+    }
     
-    removeImageBtn?.addEventListener('click', () => {
-        selectedImageFile = null;
-        imagePreview.style.display = 'none';
-        imageFile.value = '';
-        removeImageBtn.style.display = 'none';
-    });
+    if (removeImageBtn) {
+        removeImageBtn.addEventListener('click', () => {
+            selectedImageFile = null;
+            imagePreview.style.display = 'none';
+            imageFileInput.value = '';
+            removeImageBtn.style.display = 'none';
+        });
+    }
     
     // Copy profile link
-    document.getElementById('copyProfileBtn')?.addEventListener('click', () => {
+    document.getElementById('copyProfileBtn')?.addEventListener('click', async () => {
         const urlElement = document.getElementById('profileUrl');
-        const url = urlElement.innerText.replace('🔗 ', '');
-        navigator.clipboard.writeText(url).then(() => {
+        const url = urlElement.innerText;
+        try {
+            await navigator.clipboard.writeText(url);
             showToast('📋 تم نسخ الرابط! شاركه ليصل إليك رسائل مجهولة');
-        }).catch(() => {
+        } catch (err) {
             showToast('❌ فشل نسخ الرابط', true);
-        });
-    });
-    
-    // Modal close handlers
-    const modal = document.getElementById('imageModal');
-    const modalClose = document.querySelector('.modal-close');
-    
-    modalClose?.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-    
-    modal?.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
         }
     });
     
-    // Check for profile in URL
+    // Modal close
+    const modal = document.getElementById('imageModal');
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+    
+    // Check URL for recipient
     const urlParams = new URLSearchParams(window.location.search);
-    const profileParam = urlParams.get('profile');
-    if (profileParam) {
-        const recipientInput = document.getElementById('recipientUsername');
-        if (recipientInput) {
-            recipientInput.value = profileParam;
-            showToast(`✍️ اكتب رسالتك إلى ${profileParam}`);
+    const toParam = urlParams.get('to');
+    if (toParam) {
+        setTimeout(() => {
+            const recipientInput = document.getElementById('recipientUsername');
+            if (recipientInput) {
+                recipientInput.value = toParam;
+                showToast(`✍️ اكتب رسالتك إلى ${toParam}`);
+            }
+        }, 500);
+    }
+    
+    // Check if user is logged in (from localStorage)
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        try {
+            const user = JSON.parse(savedUser);
+            // Verify user still exists
+            const userDocRef = doc(db, 'users', user.username);
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+                currentUser = user;
+                updateUIAfterLogin();
+            } else {
+                localStorage.removeItem('currentUser');
+            }
+        } catch (e) {
+            localStorage.removeItem('currentUser');
         }
     }
     
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-            modal.style.display = 'none';
+    // Save user to localStorage on login
+    window.addEventListener('beforeunload', () => {
+        if (currentUser) {
+            localStorage.setItem('currentUser', JSON.stringify({ username: currentUser.username }));
         }
     });
     
-    console.log('✅ تطبيق صراحة جاهز للعمل!');
+    console.log('✅ التطبيق جاهز للعمل!');
 </script>
 </body>
 </html>
