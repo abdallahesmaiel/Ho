@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>صراحة | رسائل بخصوصية تامة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>صراحة | رسائل بخصوصية تامة & مميزة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -11,110 +11,182 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* نظام الألوان المتغير */
+        :root {
+            --primary: #00c4cc;
+            --primary-dark: #009ea5;
+            --primary-light: #e0f7fa;
+            --secondary: #f97316;
+            --secondary-light: #fff4e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-gradient-start: #f0f9ff;
+            --bg-gradient-end: #e6f4f1;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
+        }
+
+        /* الوضع المظلم */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --text-muted: #94a3b8;
+                --bg-primary: #1e293b;
+                --bg-secondary: #0f172a;
+                --bg-gradient-start: #0f172a;
+                --bg-gradient-end: #1e293b;
+                --border-color: #334155;
+                --primary-light: #1a3a3c;
+                --secondary-light: #3a2a1a;
+            }
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e6f4f1 100%);
-            color: #1e293b;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
-        /* شريط التنقل العلوي */
-        .top-bar {
-            background: rgba(255, 255, 255, 0.92);
+        /* شريط التنقل */
+        .navbar {
+            background: var(--bg-primary);
             backdrop-filter: blur(12px);
-            padding: 14px 24px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.875rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            border-bottom: 1px solid rgba(0, 196, 204, 0.15);
-            position: sticky;
-            top: 0;
-            z-index: 99;
         }
 
         .logo {
-            font-size: 1.7rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #00c4cc, #2c9a9e);
-            -webkit-background-clip: text;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-clip: text;
+            -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .logo i {
             background: none;
-            -webkit-background-clip: unset;
             background-clip: unset;
-            color: #00c4cc;
-            font-size: 1.6rem;
-            margin-left: 6px;
+            color: var(--primary);
+            font-size: 1.4rem;
         }
 
-        .menu-icon {
-            background: #f1f5f9;
-            border: none;
-            font-size: 1.7rem;
-            cursor: pointer;
-            color: #1e293b;
+        .menu-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             width: 44px;
             height: 44px;
-            border-radius: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.2s;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
-        .menu-icon:active { background: #e2e8f0; transform: scale(0.96);}
+        .menu-btn:active {
+            transform: scale(0.95);
+        }
 
-        /* القائمة المندسلة (يمين) */
-        .side-menu {
+        /* القائمة الجانبية */
+        .sidebar {
             position: fixed;
             top: 0;
-            right: -280px;
-            width: 270px;
+            right: -100%;
+            width: 100%;
+            max-width: 320px;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(16px);
-            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.08);
+            background: var(--bg-primary);
+            box-shadow: var(--shadow-xl);
             z-index: 1000;
-            transition: 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            padding: 80px 0 20px 0;
-            border-left: 1px solid rgba(0,196,204,0.2);
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
         }
 
-        .side-menu.open {
+        .sidebar.open {
             right: 0;
         }
 
-        .side-menu a {
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            width: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 1rem 0;
+        }
+
+        .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 18px 28px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1e2a3e;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
             text-decoration: none;
-            transition: 0.2s;
-            border-bottom: 1px solid #f0f2f5;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .side-menu a i {
-            width: 28px;
-            color: #00c4cc;
-            font-size: 1.3rem;
+        .sidebar-menu a:active {
+            background: var(--primary-light);
         }
 
-        .side-menu a:hover {
-            background: #e0f7fa;
-            padding-right: 34px;
-            color: #008b8f;
+        .sidebar-menu a i {
+            width: 1.75rem;
+            color: var(--primary);
         }
 
         .overlay {
@@ -123,12 +195,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(3px);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
             visibility: hidden;
             opacity: 0;
-            transition: 0.2s;
-            z-index: 999;
+            transition: all 0.3s ease;
         }
 
         .overlay.active {
@@ -136,261 +208,668 @@
             opacity: 1;
         }
 
-        /* الحاوية الرئيسية responsive */
-        .main-container {
-            max-width: 620px;
-            margin: 20px auto;
-            padding: 0 20px 40px;
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            min-height: calc(100vh - 73px);
         }
 
-        /* البطاقات (الصفحات) */
-        .card-page {
-            background: #ffffff;
-            border-radius: 36px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
-            padding: 28px 26px;
-            transition: 0.2s;
-            animation: fadeSlideUp 0.35s ease;
+        /* البطاقات */
+        .card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(14px);}
-            to { opacity: 1; transform: translateY(0);}
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
         }
 
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #0f3b3d;
-            margin-bottom: 18px;
-        }
-
-        h2 i {
-            color: #00c4cc;
-            margin-left: 10px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 14px 18px;
-            margin: 12px 0;
-            border: 1.5px solid #e2edf2;
-            border-radius: 28px;
-            font-size: 1rem;
-            transition: 0.2s;
-            background: #fefefe;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #00c4cc;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0,196,204,0.2);
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #00c4cc;
-            border: none;
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 16px;
+        .card-header {
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            gap: 0.75rem;
         }
 
-        button:active { transform: scale(0.97); background: #00aab1;}
+        .card-header i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
 
-        .link-switch {
-            text-align: center;
-            margin-top: 22px;
-            color: #4b6a7c;
-            cursor: pointer;
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* الحقول */
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
-        .link-switch span {
-            color: #00c4cc;
-            font-weight: 700;
+        input, textarea, select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
 
-        /* بطاقة الرسائل الأنيقة */
-        .message-card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 18px 20px;
-            margin-bottom: 14px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.03);
-            border: 1px solid #eef3f8;
-            transition: 0.2s;
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 196, 204, 0.1);
+        }
+
+        .password-wrapper {
             position: relative;
-            border-right: 5px solid #00c4cc;
         }
 
-        .message-card:hover {
-            transform: translateX(-3px);
-            box-shadow: 0 10px 20px rgba(0,196,204,0.08);
-            border-color: #caf0f2;
+        .password-wrapper input {
+            padding-left: 2.75rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-muted);
+            background: none;
+            width: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* الأزرار */
+        .btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:active {
+            background: var(--primary-dark);
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* التبويبات */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: var(--radius-xl);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            background: var(--bg-primary);
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* بطاقات الرسائل */
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .message-item.favorite {
+            border-right: 4px solid var(--secondary);
+            background: var(--secondary-light);
+        }
+
+        .message-content {
+            flex: 1;
+            min-width: 0;
         }
 
         .message-text {
             font-size: 1rem;
             line-height: 1.5;
-            color: #1e2a3e;
-            font-weight: 500;
+            word-break: break-word;
+            color: var(--text-primary);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 42px 20px;
-            background: #f8fafc;
-            border-radius: 32px;
-            color: #7e95a5;
+        .message-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
         }
 
-        .share-area {
-            background: #f0f9fa;
-            border-radius: 28px;
-            padding: 12px 16px;
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            width: auto;
+            margin: 0;
+            padding: 0.25rem;
+        }
+
+        .fav-btn.active {
+            color: var(--secondary);
+        }
+
+        /* ===== قسم المشاركة المحسن ===== */
+        .share-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .share-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
-        .share-link-text {
-            font-size: 13px;
-            background: white;
-            padding: 8px 14px;
-            border-radius: 50px;
-            overflow-x: auto;
-            white-space: nowrap;
+        .share-label i {
+            color: var(--primary);
+        }
+
+        .share-container {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        /* حاوية الرابط مع تمرير أفقي فقط عند الحاجة */
+        .share-link-wrapper {
             flex: 1;
+            min-width: 0; /* مهم لمنع تجاوز الحاوية */
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .share-link {
+            padding: 0.75rem 1rem;
+            font-family: monospace;
+            font-size: 0.875rem;
             direction: ltr;
             text-align: left;
-            font-family: monospace;
+            color: var(--text-primary);
+            white-space: nowrap;
+            display: inline-block;
+            min-width: 100%;
+        }
+
+        /* تخصيص شريط التمرير للرابط */
+        .share-link-wrapper::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .share-link-wrapper::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .share-link-wrapper::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
 
         .copy-btn {
             width: auto;
-            background: #2c3e50;
-            padding: 8px 20px;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.25rem;
             margin: 0;
-            font-size: 13px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        hr {
-            margin: 20px 0;
-            border: none;
-            height: 1px;
-            background: linear-gradient(to left, #cbd5e1, transparent);
+        .copy-btn:active {
+            transform: scale(0.97);
         }
 
-        .auth-required {
-            background: #fff4e5;
-            border-radius: 28px;
-            padding: 24px;
+        /* رسالة منبثقة للنسخ */
+        .copy-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            z-index: 2000;
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            white-space: nowrap;
+        }
+
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* حالة فارغة */
+        .empty-state {
             text-align: center;
-            margin-top: 20px;
+            padding: 3rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
         }
 
-        footer {
+        /* خيار تذكرني */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin: 0;
+        }
+
+        /* الروابط */
+        .link-switch {
             text-align: center;
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 40px;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
         }
 
-        @media (max-width: 500px) {
-            .card-page { padding: 22px 18px; }
-            h2 { font-size: 1.6rem; }
-            .share-area { flex-direction: column; align-items: stretch; }
-            .share-link-text { white-space: normal; word-break: break-all; text-align: center; direction: ltr; }
-            .copy-btn { width: 100%; }
+        .link-switch span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* التذييل */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        /* استعلامات الوسائط للشاشات المختلفة */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.25rem;
+            }
+            
+            /* تحسين قسم المشاركة للشاشات الصغيرة */
+            .share-container {
+                flex-wrap: wrap;
+            }
+            
+            .share-link-wrapper {
+                width: 100%;
+                flex: auto;
+            }
+            
+            .copy-btn {
+                width: 100%;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .message-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .message-actions {
+                align-self: flex-end;
+            }
+        }
+
+        /* للشاشات الصغيرة جداً */
+        @media (max-width: 480px) {
+            .share-label {
+                font-size: 0.75rem;
+            }
+            
+            .share-link {
+                font-size: 0.75rem;
+                padding: 0.625rem 0.875rem;
+            }
+            
+            .copy-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* تحسينات للشاشات الكبيرة */
+        @media (min-width: 1200px) {
+            .main-content {
+                padding: 2rem;
+            }
+        }
+
+        /* رسوم متحركة */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* شريط التمرير المخصص */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
         }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <div class="logo"><i class="fas fa-message"></i> صراحة</div>
-    <button class="menu-icon" id="menuToggleBtn"><i class="fas fa-bars"></i></button>
-</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <i class="fas fa-message"></i>
+            <span>صراحة</span>
+        </div>
+        <button class="menu-btn" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
 
-<div class="side-menu" id="sideMenu">
-    <a href="#" id="navHome"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="#" id="navMessages"><i class="fas fa-envelope-open-text"></i> رسائلي</a>
-    <a href="#" id="navAuthAction"><i class="fas fa-sign-in-alt"></i> <span id="authMenuText">تسجيل الدخول</span></a>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3>القائمة</h3>
+        <button class="close-sidebar" id="closeSidebar">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="sidebar-menu">
+        <a href="#" id="navHome">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="#" id="navMessages">
+            <i class="fas fa-envelope"></i>
+            <span>رسائلي</span>
+        </a>
+        <a href="#" id="navFavorites">
+            <i class="fas fa-heart"></i>
+            <span>المفضلة</span>
+        </a>
+        <a href="#" id="navAuth">
+            <i class="fas fa-user"></i>
+            <span id="authText">تسجيل الدخول</span>
+        </a>
+    </div>
 </div>
-<div class="overlay" id="overlayLayer"></div>
+<div class="overlay" id="overlay"></div>
 
-<div class="main-container">
+<div class="main-content" id="mainContent">
     <!-- الصفحة الرئيسية -->
-    <div id="homePage" class="card-page">
-        <h2><i class="fas fa-feather-alt"></i> تواصل بنقاء</h2>
-        <p style="margin-bottom: 28px; font-size: 1.05rem;">صراحة تمنحك مساحة آمنة لاستقبال الرسائل المجهولة. شارك رابطك مع الأصدقاء واستلم آراءهم بصدق.</p>
-        <div style="background: #eefbfb; border-radius: 28px; padding: 24px 16px; text-align: center;">
-            <i class="fas fa-share-alt" style="font-size: 48px; color: #00c4cc; margin-bottom: 10px; display: block;"></i>
-            <p style="margin-bottom: 18px;">✨ احصل على رابط صراحتك الخاص ✨</p>
-            <button onclick="redirectToAuth()" style="background: #2c3e50;"><i class="fas fa-user-plus"></i> إنشاء حساب أو تسجيل دخول</button>
-        </div>
-        <div class="link-switch" onclick="redirectToAuth()">📩 لديك حساب؟ <span>سجل الدخول لرؤية رسائلك</span></div>
-    </div>
-
-    <!-- صفحة تسجيل الدخول/إنشاء حساب -->
-    <div id="authPage" class="card-page" style="display: none;">
-        <div id="loginSection">
-            <h2><i class="fas fa-lock"></i> تسجيل الدخول</h2>
-            <input type="text" id="loginUser" placeholder="اسم المستخدم">
-            <input type="password" id="loginPass" placeholder="كلمة المرور">
-            <button onclick="handleLogin()"><i class="fas fa-arrow-left"></i> دخول</button>
-            <div class="link-switch" onclick="switchAuthMode('register')">ليس لديك حساب؟ <span>إنشاء حساب جديد</span></div>
-        </div>
-        <div id="registerSection" style="display: none;">
-            <h2><i class="fas fa-user-plus"></i> حساب جديد</h2>
-            <input type="text" id="regUser" placeholder="اسم المستخدم">
-            <input type="password" id="regPass" placeholder="كلمة المرور">
-            <button onclick="handleRegister()"><i class="fas fa-check"></i> إنشاء الحساب</button>
-            <div class="link-switch" onclick="switchAuthMode('login')">لديك حساب؟ <span>تسجيل الدخول</span></div>
+    <div id="homePage" class="page">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-feather-alt"></i>
+                <h2>تواصل بنقاء</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem;">صراحة تمنحك مساحة آمنة لاستقبال الرسائل المجهولة. شارك رابطك مع الأصدقاء واستلم آراءهم بصدق.</p>
+            <div style="background: var(--primary-light); border-radius: var(--radius-md); padding: 2rem; text-align: center;">
+                <i class="fas fa-share-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem; display: block;"></i>
+                <p style="margin-bottom: 1rem;">✨ احصل على رابط صراحتك الخاص ✨</p>
+                <button class="btn btn-primary" onclick="redirectToAuth()">
+                    <i class="fas fa-user-plus"></i>
+                    إنشاء حساب أو تسجيل دخول
+                </button>
+            </div>
+            <div class="link-switch" onclick="redirectToAuth()">
+                📩 لديك حساب؟ <span>سجل الدخول لرؤية رسائلك</span>
+            </div>
         </div>
     </div>
 
-    <!-- صفحة الرسائل (تتطلب تسجيل دخول) -->
-    <div id="messagesPage" class="card-page" style="display: none;">
-        <h2><i class="fas fa-inbox"></i> رسائلي</h2>
-        <div class="share-area">
-            <span class="share-link-text" id="dynamicShareLink">رابط الصراحة</span>
-            <button class="copy-btn" onclick="copyShareLinkToClip()"><i class="fas fa-copy"></i> نسخ الرابط</button>
-        </div>
-        <hr>
-        <div id="messagesListContainer">
-            <div class="empty-state">📭 جاري تحميل الرسائل...</div>
+    <!-- صفحة تسجيل الدخول -->
+    <div id="authPage" class="page" style="display: none;">
+        <div class="card">
+            <div id="loginSection">
+                <div class="card-header">
+                    <i class="fas fa-lock"></i>
+                    <h2>تسجيل الدخول</h2>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="loginUser" placeholder="اسم المستخدم">
+                </div>
+                <div class="input-group">
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPass" placeholder="كلمة المرور">
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('loginPass', this)"></i>
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">تذكرني</label>
+                </div>
+                <button class="btn btn-primary" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    دخول
+                </button>
+                <div class="link-switch" onclick="switchAuthMode('register')">
+                    ليس لديك حساب؟ <span>إنشاء حساب جديد</span>
+                </div>
+            </div>
+            <div id="registerSection" style="display: none;">
+                <div class="card-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>حساب جديد</h2>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="regUser" placeholder="اسم المستخدم">
+                </div>
+                <div class="input-group">
+                    <div class="password-wrapper">
+                        <input type="password" id="regPass" placeholder="كلمة المرور">
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('regPass', this)"></i>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="handleRegister()">
+                    <i class="fas fa-check"></i>
+                    إنشاء الحساب
+                </button>
+                <div class="link-switch" onclick="switchAuthMode('login')">
+                    لديك حساب؟ <span>تسجيل الدخول</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- صفحة إرسال رسالة (تظهر عند فتح الرابط ?u=username) -->
-    <div id="sendMessagePage" class="card-page" style="display: none;">
-        <h2 id="sendTargetHeader"><i class="fas fa-paper-plane"></i> أرسل صراحة</h2>
-        <textarea id="sendMsgText" rows="5" placeholder="اكتب رسالتك هنا... لن يعرف أحد هويتك 🤍"></textarea>
-        <button onclick="submitAnonymousMessage()"><i class="fas fa-share"></i> إرسال الرسالة</button>
-        <div class="link-switch" onclick="goToHomePage()">⬅️ أنشئ حسابك الخاص لاستقبال الرسائل</div>
+    <!-- صفحة الرسائل -->
+    <div id="messagesPage" class="page" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-inbox"></i>
+                <h2>مركز الرسائل</h2>
+            </div>
+            
+            <!-- قسم المشاركة المحسن -->
+            <div class="share-section">
+                <div class="share-label">
+                    <i class="fas fa-share-alt"></i>
+                    <span>رابط صفحة صراحتك - شاركه مع أصدقائك</span>
+                </div>
+                <div class="share-container">
+                    <div class="share-link-wrapper">
+                        <div class="share-link" id="shareLink">رابط الصراحة</div>
+                    </div>
+                    <button class="btn btn-primary copy-btn" onclick="copyShareLink()">
+                        <i class="fas fa-copy"></i>
+                        نسخ
+                    </button>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" id="allMessagesTab">📬 جميع الرسائل</button>
+                <button class="tab" id="favMessagesTab">❤️ المفضلة</button>
+            </div>
+            <div id="messagesContainer">
+                <div class="empty-state">📭 جاري تحميل الرسائل...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة إرسال رسالة -->
+    <div id="sendPage" class="page" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-paper-plane"></i>
+                <h2 id="sendTitle">أرسل صراحة</h2>
+            </div>
+            <div class="input-group">
+                <textarea id="messageText" rows="6" placeholder="اكتب رسالتك هنا... لن يعرف أحد هويتك 🤍"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="sendMessage()">
+                <i class="fas fa-share"></i>
+                إرسال الرسالة
+            </button>
+            <div class="link-switch" onclick="goToHome()">
+                ⬅️ أنشئ حسابك الخاص لاستقبال الرسائل
+            </div>
+        </div>
     </div>
 </div>
-<footer>💬 رسائل مجهولة المصدر · خصوصية تامة</footer>
+
+<div class="footer">
+    💬 رسائل مجهولة المصدر · قلب للتمييز والحفظ
+</div>
+
+<!-- رسالة منبثقة للنسخ -->
+<div id="copyToast" class="copy-toast">
+    <i class="fas fa-check-circle"></i> تم نسخ الرابط بنجاح
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script>
-    // Firebase config
+    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyABD_gJMjIx5BBIU925Upwi_8zDbc3EDCU",
         authDomain: "you-chat-4b169.firebaseapp.com",
@@ -400,184 +879,284 @@
         messagingSenderId: "593383830616",
         appId: "1:593383830616:web:5117ece10972a75e95c62d"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Global state
-    let currentLoggedUser = localStorage.getItem('loggedInUser') || null;
-    let targetReceiver = null; // for send page (?u=)
+    // Global variables
+    let currentUser = localStorage.getItem('loggedInUser') || sessionStorage.getItem('loggedInUser') || null;
+    let targetReceiver = null;
+    let messagesRef = null;
+    let messages = [];
+    let favorites = new Set();
+    let currentTab = 'all';
 
     // DOM elements
     const homePage = document.getElementById('homePage');
     const authPage = document.getElementById('authPage');
     const messagesPage = document.getElementById('messagesPage');
-    const sendPage = document.getElementById('sendMessagePage');
-    const sideMenu = document.getElementById('sideMenu');
-    const overlayDiv = document.getElementById('overlayLayer');
+    const sendPage = document.getElementById('sendPage');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
 
-    function closeSideMenu() { sideMenu.classList.remove('open'); overlayDiv.classList.remove('active'); }
-    function openSideMenu() { sideMenu.classList.add('open'); overlayDiv.classList.add('active'); }
-    document.getElementById('menuToggleBtn').onclick = openSideMenu;
-    overlayDiv.onclick = closeSideMenu;
+    // Menu functions
+    function openMenu() { sidebar.classList.add('open'); overlay.classList.add('active'); }
+    function closeMenu() { sidebar.classList.remove('open'); overlay.classList.remove('active'); }
+    
+    document.getElementById('menuToggle').onclick = openMenu;
+    document.getElementById('closeSidebar').onclick = closeMenu;
+    overlay.onclick = closeMenu;
 
-    function showOnlyPage(pageId) {
+    function showPage(page) {
         homePage.style.display = 'none';
         authPage.style.display = 'none';
         messagesPage.style.display = 'none';
         sendPage.style.display = 'none';
-        if (pageId === 'home') homePage.style.display = 'block';
-        else if (pageId === 'auth') authPage.style.display = 'block';
-        else if (pageId === 'messages') messagesPage.style.display = 'block';
-        else if (pageId === 'send') sendPage.style.display = 'block';
-        closeSideMenu();
+        
+        if (page === 'home') homePage.style.display = 'block';
+        else if (page === 'auth') authPage.style.display = 'block';
+        else if (page === 'messages') messagesPage.style.display = 'block';
+        else if (page === 'send') sendPage.style.display = 'block';
+        
+        closeMenu();
     }
 
-    // تحديث القائمة حسب الجلسة
-    function updateMenuAuth() {
-        const authMenuSpan = document.getElementById('authMenuText');
-        const navAuthLink = document.getElementById('navAuthAction');
-        if (currentLoggedUser) {
-            authMenuSpan.innerText = 'تسجيل الخروج';
-            navAuthLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> <span id="authMenuText">تسجيل الخروج</span>';
-            navAuthLink.onclick = (e) => { e.preventDefault(); logoutUser(); };
+    function updateAuthUI() {
+        const authText = document.getElementById('authText');
+        if (currentUser) {
+            authText.innerHTML = 'تسجيل الخروج';
+            document.getElementById('navAuth').onclick = (e) => { e.preventDefault(); logout(); };
         } else {
-            authMenuSpan.innerText = 'تسجيل الدخول';
-            navAuthLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="authMenuText">تسجيل الدخول</span>';
-            navAuthLink.onclick = (e) => { e.preventDefault(); showOnlyPage('auth'); switchAuthMode('login'); };
+            authText.innerHTML = 'تسجيل الدخول';
+            document.getElementById('navAuth').onclick = (e) => { e.preventDefault(); showPage('auth'); switchAuthMode('login'); };
         }
     }
 
-    // navigation from menu
-    document.getElementById('navHome').onclick = (e) => { e.preventDefault(); showOnlyPage('home'); };
-    document.getElementById('navMessages').onclick = (e) => {
-        e.preventDefault();
-        if (!currentLoggedUser) {
-            alert("🔐 يجب تسجيل الدخول أولاً لمشاهدة رسائلك");
-            showOnlyPage('auth');
-            switchAuthMode('login');
-        } else {
-            loadMessagesForUser(currentLoggedUser);
-            showOnlyPage('messages');
-        }
-    };
+    function logout() {
+        localStorage.removeItem('loggedInUser');
+        sessionStorage.removeItem('loggedInUser');
+        currentUser = null;
+        if (messagesRef) messagesRef.off();
+        updateAuthUI();
+        showPage('home');
+        showToast('تم تسجيل الخروج بنجاح');
+    }
 
-    // Auth logic
+    function switchAuthMode(mode) {
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        if (mode === 'login') {
+            loginSection.style.display = 'block';
+            registerSection.style.display = 'none';
+        } else {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'block';
+        }
+    }
+
+    function redirectToAuth() { showPage('auth'); switchAuthMode('login'); }
+
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('copyToast');
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
+        toast.style.background = isError ? 'var(--danger)' : 'var(--primary)';
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+
     function handleLogin() {
-        const user = document.getElementById('loginUser').value.trim().toLowerCase();
-        const pass = document.getElementById('loginPass').value;
-        if (!user || !pass) return alert("يرجى ملء جميع الحقول");
-        db.ref('users/' + user).once('value', snap => {
-            if (snap.exists() && snap.val().password === pass) {
-                currentLoggedUser = user;
-                localStorage.setItem('loggedInUser', user);
-                updateMenuAuth();
-                loadMessagesForUser(user);
-                showOnlyPage('messages');
-                alert(`مرحباً ${user} ✨`);
-            } else alert("اسم المستخدم أو كلمة المرور غير صحيحة");
+        const username = document.getElementById('loginUser').value.trim().toLowerCase();
+        const password = document.getElementById('loginPass').value;
+        const remember = document.getElementById('rememberMe').checked;
+        
+        if (!username || !password) return showToast('يرجى ملء جميع الحقول', true);
+        
+        db.ref('users/' + username).once('value', (snap) => {
+            if (snap.exists() && snap.val().password === password) {
+                currentUser = username;
+                if (remember) localStorage.setItem('loggedInUser', username);
+                else sessionStorage.setItem('loggedInUser', username);
+                updateAuthUI();
+                loadMessages();
+                showPage('messages');
+                setTab('all');
+                showToast(`مرحباً ${username} ✨`);
+            } else {
+                showToast('اسم المستخدم أو كلمة المرور غير صحيحة', true);
+            }
         });
     }
 
     function handleRegister() {
-        const user = document.getElementById('regUser').value.trim().toLowerCase();
-        const pass = document.getElementById('regPass').value;
-        if (!user || !pass) return alert("املأ جميع الحقول");
-        db.ref('users/' + user).once('value', snap => {
-            if (snap.exists()) alert("اسم المستخدم موجود بالفعل");
-            else {
-                db.ref('users/' + user).set({ password: pass }, err => {
-                    if (!err) {
-                        alert("✅ تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول");
+        const username = document.getElementById('regUser').value.trim().toLowerCase();
+        const password = document.getElementById('regPass').value;
+        
+        if (!username || !password) return showToast('يرجى ملء جميع الحقول', true);
+        
+        db.ref('users/' + username).once('value', (snap) => {
+            if (snap.exists()) {
+                showToast('اسم المستخدم موجود بالفعل', true);
+            } else {
+                db.ref('users/' + username).set({ password: password }, (error) => {
+                    if (!error) {
+                        showToast('✅ تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول');
                         switchAuthMode('login');
-                        document.getElementById('loginUser').value = user;
+                        document.getElementById('loginUser').value = username;
                         document.getElementById('loginPass').value = '';
-                    } else alert("خطأ تقني");
+                    } else {
+                        showToast('حدث خطأ، حاول مرة أخرى', true);
+                    }
                 });
             }
         });
     }
 
-    function logoutUser() {
-        localStorage.removeItem('loggedInUser');
-        currentLoggedUser = null;
-        updateMenuAuth();
-        showOnlyPage('home');
-        alert("تم تسجيل الخروج");
+    function loadFavorites() {
+        if (!currentUser) return;
+        const stored = localStorage.getItem(`favorites_${currentUser}`);
+        favorites = new Set(stored ? JSON.parse(stored) : []);
     }
 
-    function switchAuthMode(mode) {
-        const loginDiv = document.getElementById('loginSection');
-        const regDiv = document.getElementById('registerSection');
-        if (mode === 'login') { loginDiv.style.display = 'block'; regDiv.style.display = 'none'; }
-        else { loginDiv.style.display = 'none'; regDiv.style.display = 'block'; }
+    function saveFavorites() {
+        if (!currentUser) return;
+        localStorage.setItem(`favorites_${currentUser}`, JSON.stringify([...favorites]));
     }
 
-    function redirectToAuth() { showOnlyPage('auth'); switchAuthMode('login'); }
+    function toggleFavorite(messageId) {
+        if (favorites.has(messageId)) favorites.delete(messageId);
+        else favorites.add(messageId);
+        saveFavorites();
+        renderMessages();
+    }
 
-    // تحميل الرسائل بشكل أنيق مع تصميم محسن
-    function loadMessagesForUser(username) {
-        const container = document.getElementById('messagesListContainer');
-        container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> جاري تحميل رسائلك...</div>';
-        const shareSpan = document.getElementById('dynamicShareLink');
-        const link = window.location.origin + window.location.pathname + "?u=" + username;
-        shareSpan.innerText = link;
-
-        db.ref('messages/' + username).on('value', (snapshot) => {
-            container.innerHTML = '';
+    function loadMessages() {
+        if (messagesRef) messagesRef.off();
+        
+        const shareLink = document.getElementById('shareLink');
+        const link = `${window.location.origin}${window.location.pathname}?u=${currentUser}`;
+        shareLink.textContent = link;
+        
+        loadFavorites();
+        
+        messagesRef = db.ref('messages/' + currentUser);
+        messagesRef.on('value', (snapshot) => {
+            messages = [];
             if (snapshot.exists()) {
-                const msgsObj = snapshot.val();
-                const messagesArray = Object.values(msgsObj).reverse();
-                if (messagesArray.length === 0) {
-                    container.innerHTML = '<div class="empty-state">📭 لا توجد رسائل بعد، شارك رابطك لاستقبال أول رسالة!</div>';
-                } else {
-                    messagesArray.forEach(msg => {
-                        const msgDiv = document.createElement('div');
-                        msgDiv.className = 'message-card';
-                        msgDiv.innerHTML = `<div class="message-text"><i class="fas fa-comment-dots" style="color:#00c4cc; margin-left:8px;"></i> ${escapeHtml(msg.text)}</div>`;
-                        container.appendChild(msgDiv);
+                const data = snapshot.val();
+                Object.keys(data).forEach(id => {
+                    messages.push({
+                        id: id,
+                        text: data[id].text,
+                        timestamp: data[id].timestamp || Date.now()
                     });
-                }
-            } else {
-                container.innerHTML = '<div class="empty-state">✨ لا توجد رسائل بعد، انشر الرابط ليتواصل معك الآخرون.</div>';
+                });
+                messages.sort((a, b) => b.timestamp - a.timestamp);
             }
+            renderMessages();
         });
     }
 
-    function copyShareLinkToClip() {
-        const textElem = document.getElementById('dynamicShareLink').innerText;
-        navigator.clipboard.writeText(textElem);
-        alert("📋 تم نسخ رابط صراحتك");
+    function renderMessages() {
+        const container = document.getElementById('messagesContainer');
+        let filteredMessages = currentTab === 'all' ? messages : messages.filter(m => favorites.has(m.id));
+        
+        if (filteredMessages.length === 0) {
+            container.innerHTML = `<div class="empty-state">📭 ${currentTab === 'all' ? 'لا توجد رسائل بعد' : 'لا توجد رسائل مفضلة'}</div>`;
+            return;
+        }
+        
+        container.innerHTML = `
+            <div class="messages-list">
+                ${filteredMessages.map(msg => `
+                    <div class="message-item ${favorites.has(msg.id) ? 'favorite' : ''}">
+                        <div class="message-content">
+                            <div class="message-text">${escapeHtml(msg.text)}</div>
+                            <div class="message-date">${new Date(msg.timestamp).toLocaleDateString('ar')}</div>
+                        </div>
+                        <div class="message-actions">
+                            <button class="fav-btn ${favorites.has(msg.id) ? 'active' : ''}" onclick="toggleFavorite('${msg.id}')">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
     }
 
-    // إرسال رسالة مجهولة
-    function submitAnonymousMessage() {
-        const msg = document.getElementById('sendMsgText').value.trim();
-        if (!msg) return alert("اكتب رسالتك أولاً");
-        if (!targetReceiver) return alert("خطأ: المستلم غير موجود");
+    function setTab(tab) {
+        currentTab = tab;
+        const allTab = document.getElementById('allMessagesTab');
+        const favTab = document.getElementById('favMessagesTab');
+        
+        if (tab === 'all') {
+            allTab.classList.add('active');
+            favTab.classList.remove('active');
+        } else {
+            allTab.classList.remove('active');
+            favTab.classList.add('active');
+        }
+        renderMessages();
+    }
+
+    function copyShareLink() {
+        const link = document.getElementById('shareLink').textContent;
+        navigator.clipboard.writeText(link).then(() => {
+            showToast('📋 تم نسخ الرابط بنجاح');
+        }).catch(() => {
+            showToast('فشل نسخ الرابط', true);
+        });
+    }
+
+    function sendMessage() {
+        const message = document.getElementById('messageText').value.trim();
+        if (!message) return showToast('اكتب رسالتك أولاً', true);
+        if (!targetReceiver) return showToast('خطأ: المستلم غير موجود', true);
+        
         db.ref('messages/' + targetReceiver).push({
-            text: msg,
+            text: message,
             timestamp: Date.now()
         }).then(() => {
-            alert("📨 تم إرسال رسالتك بنجاح (مجهولة تماماً)");
-            document.getElementById('sendMsgText').value = '';
-        }).catch(() => alert("حدث خطأ، حاول مجدداً"));
+            showToast('📨 تم إرسال رسالتك بنجاح');
+            document.getElementById('messageText').value = '';
+        }).catch(() => showToast('حدث خطأ، حاول مرة أخرى', true));
     }
 
-    function goToHomePage() { showOnlyPage('home'); }
+    function goToHome() { showPage('home'); }
 
-    // معالجة رابط الإرسال ?u=username
+    function togglePassword(inputId, element) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            element.classList.remove('fa-eye');
+            element.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            element.classList.remove('fa-eye-slash');
+            element.classList.add('fa-eye');
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     function handleSendLink() {
         const params = new URLSearchParams(window.location.search);
-        const usernameParam = params.get('u');
-        if (usernameParam && usernameParam.trim() !== '') {
-            targetReceiver = usernameParam.trim().toLowerCase();
+        const user = params.get('u');
+        if (user) {
+            targetReceiver = user.toLowerCase();
             db.ref('users/' + targetReceiver).once('value', (snap) => {
-                if (!snap.exists()) {
-                    alert("⚠️ هذا المستخدم غير موجود في النظام. تأكد من الرابط أو قم بإنشاء حسابك.");
-                    showOnlyPage('home');
+                if (snap.exists()) {
+                    document.getElementById('sendTitle').innerHTML = `أرسل صراحة لـ ${targetReceiver}`;
+                    showPage('send');
                 } else {
-                    document.getElementById('sendTargetHeader').innerHTML = `<i class="fas fa-paper-plane"></i> أرسل صراحة لـ ${targetReceiver}`;
-                    showOnlyPage('send');
+                    showToast('⚠️ المستخدم غير موجود', true);
+                    showPage('home');
                 }
             });
             return true;
@@ -585,31 +1164,43 @@
         return false;
     }
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
+    // Navigation
+    document.getElementById('navHome').onclick = (e) => { e.preventDefault(); showPage('home'); };
+    document.getElementById('navMessages').onclick = (e) => {
+        e.preventDefault();
+        if (!currentUser) {
+            showToast('🔐 يجب تسجيل الدخول أولاً', true);
+            showPage('auth');
+            switchAuthMode('login');
+        } else {
+            loadMessages();
+            showPage('messages');
+            setTab('all');
+        }
+    };
+    document.getElementById('navFavorites').onclick = (e) => {
+        e.preventDefault();
+        if (!currentUser) {
+            showToast('🔐 يجب تسجيل الدخول أولاً', true);
+            showPage('auth');
+            switchAuthMode('login');
+        } else {
+            loadMessages();
+            showPage('messages');
+            setTab('fav');
+        }
+    };
+    document.getElementById('allMessagesTab').onclick = () => { if (currentUser) setTab('all'); };
+    document.getElementById('favMessagesTab').onclick = () => { if (currentUser) setTab('fav'); };
 
-    // بدء التشغيل
+    // Initialize
     window.onload = () => {
-        updateMenuAuth();
-        const isSendActive = handleSendLink();
-        if (!isSendActive) {
-            if (currentLoggedUser) {
-                // لكن لا نفتح الرسائل مباشرة, نعرض الصفحة الرئيسية كما طلبت (تبقى الصفحة الرئيسية هي default)
-                showOnlyPage('home');
-            } else {
-                showOnlyPage('home');
-            }
+        updateAuthUI();
+        if (!handleSendLink()) {
+            if (currentUser) showPage('home');
+            else showPage('home');
         }
     };
 </script>
 </body>
-                </html>
+    </html>
